@@ -1,0 +1,79 @@
+﻿@model IEnumerable<iHelpU.MODEL.Models.AnuncioServico>
+
+@{
+    ViewData["Title"] = "Index";
+}
+
+<h1>Index</h1>
+
+<p>
+    <a asp-action="Create">Create New</a>
+</p>
+
+
+<div class="table-responsive">
+    <table class="table table-bordered">
+        <thead>
+            <tr>
+                <th>
+                    @Html.DisplayNameFor(model => model.Id)
+                </th>
+                <th>
+                    Tipo de Serviço
+                </th>
+                <th>
+                    Nome do Usuário
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.NomeServico)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.Descricao)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.CoordenadaX)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.CoordenadaY)
+                </th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model)
+            {
+                <tr>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Id)
+                    </td>
+                    <td>
+                      
+                        @Html.DisplayFor(modelItem => item.TipoServico.Descricao)
+                    </td>
+                    <td>
+             
+                        @Html.DisplayFor(modelItem => item.Usuario.PrimeiroNome)
+                        @Html.DisplayFor(modelItem => item.Usuario.SegundoNome)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.NomeServico)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Descricao)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.CoordenadaX)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.CoordenadaY)
+                    </td>
+                    <td>
+                        @Html.ActionLink("Edit", "Edit", new { id = item.Id }) |
+                        @Html.ActionLink("Details", "Details", new { id = item.Id }) |
+                        @Html.ActionLink("Delete", "Delete", new { id = item.Id })
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>
