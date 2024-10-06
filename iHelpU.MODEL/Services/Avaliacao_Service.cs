@@ -1,5 +1,7 @@
 ﻿using iHelpU.MODEL.Interface_Services;
+using iHelpU.MODEL.Interfaces;
 using iHelpU.MODEL.Models;
+using iHelpU.MODEL.Repositories;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
@@ -12,9 +14,12 @@ namespace iHelpU.MODEL.Services
     public class Avaliacao_Service : IAvaliacao_Service
     {
         private readonly BancoTccContext _context;
+        public RepositoryAvaliacao oRepositoryAvaliacao { get; set; }
+
 
         public Avaliacao_Service(BancoTccContext context)
         {
+            oRepositoryAvaliacao = new RepositoryAvaliacao(context);
             _context = context;
         }
 

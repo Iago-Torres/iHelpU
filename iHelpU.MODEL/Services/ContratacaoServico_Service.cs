@@ -1,5 +1,7 @@
 ﻿using iHelpU.MODEL.Interface_Services;
+using iHelpU.MODEL.Interfaces;
 using iHelpU.MODEL.Models;
+using iHelpU.MODEL.Repositories;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
@@ -12,9 +14,11 @@ namespace iHelpU.MODEL.Services
     public class ContratacaoServicoService : IContratacaoServico_Service
     {
         private readonly BancoTccContext _context;
+        public RepositoryContratacaoServico oRepositoryContratacaoServico { get; set; }
 
         public ContratacaoServicoService(BancoTccContext context)
         {
+            oRepositoryContratacaoServico = new RepositoryContratacaoServico(context);
             _context = context;
         }
 

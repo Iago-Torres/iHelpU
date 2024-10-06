@@ -1,4 +1,6 @@
-﻿using iHelpU.MODEL.Models;
+﻿using iHelpU.MODEL.Interfaces;
+using iHelpU.MODEL.Models;
+using iHelpU.MODEL.Repositories;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
@@ -11,9 +13,11 @@ namespace iHelpU.MODEL.Services
     public class CompetenciaService : ICompetenciaService
     {
         private readonly BancoTccContext _context;
+        public RepositoryCompetencia oRepositoryCompetencia { get; set; }
 
         public CompetenciaService(BancoTccContext context)
         {
+            oRepositoryCompetencia = new RepositoryCompetencia(context);
             _context = context;
         }
 

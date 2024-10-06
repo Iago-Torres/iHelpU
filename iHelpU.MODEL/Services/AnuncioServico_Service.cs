@@ -1,5 +1,6 @@
 ﻿using iHelpU.MODEL.Interface_Services;
 using iHelpU.MODEL.Models;
+using iHelpU.MODEL.Repositories;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
@@ -12,6 +13,7 @@ namespace iHelpU.MODEL.Services
     public class AnuncioServico_Service : IAnuncioServico_Service
     {
         private readonly BancoTccContext _context;
+        public RepositoryAnuncioServico oRepositoryAnuncioServico { get; set; }
 
         public AnuncioServico_Service(BancoTccContext context)
         {

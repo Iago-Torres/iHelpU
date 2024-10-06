@@ -1,5 +1,6 @@
 ﻿using iHelpU.MODEL.Interface_Services;
 using iHelpU.MODEL.Models;
+using iHelpU.MODEL.Repositories;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
@@ -12,10 +13,12 @@ namespace iHelpU.MODEL.Services
     public class UsuarioService : IUsuario_Service
     {
         private readonly BancoTccContext _context;
+        public RepositoryUsuario oRepositoryUsuario { get; set; }
 
         public UsuarioService(BancoTccContext context)
         {
-            _context = context;
+            oRepositoryUsuario = new RepositoryUsuario(context);
+           _context = context;
         }
 
         public async Task<IEnumerable<Usuario>> GetAllAsync()

@@ -1,4 +1,5 @@
 ﻿using iHelpU.MODEL.Models;
+using iHelpU.MODEL.Repositories;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
@@ -11,9 +12,11 @@ namespace iHelpU.MODEL.Services
     public class TipoServicoService : ITipoServico_Service
     {
         private readonly BancoTccContext _context;
+        public RepositoryTipoServico oRepositoryTipoServico { get; set; }
 
         public TipoServicoService(BancoTccContext context)
         {
+            oRepositoryTipoServico = new RepositoryTipoServico(context);
             _context = context;
         }
 
