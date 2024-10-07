@@ -1,0 +1,6 @@
+@iHelpU.API_HostAddress = http://localhost:5042
+
+GET {{iHelpU.API_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###
