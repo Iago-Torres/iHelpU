@@ -1,14 +1,24 @@
-import React,{useState, useEffect} from "react";
-import { GetCompetencia } from "./services/serviceCompetencia";
+import React, { useState, useEffect } from "react";
+//import '@fortawesome/fontawesome-free/css/all.min.css';
+//import { GetTipoServico } from "./services/serviceTipoServico";
+//import TipoServico from "./components/pages/TipoServico";
+// import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+// import { faSearch, faStar, faHandshake } from '@fortawesome/free-solid-svg-icons';
+// Importando a página HomePage
+import HomePage from './components/pages/HomePage'; // Certifique-se de que o caminho está correto
 
-const App = () =>{
+const App = () => {
   useEffect(() => {
-    GetCompetencia().then(res => {console.log(res.data)})
+    // Se a função GetTipoServico estiver comentada ou não implementada, lembre-se de habilitá-la
+    // GetTipoServico().then(res => { console.log(res.data) })
+  }, []);
 
-  },[])
   return (
     <>
-    <h1>Hello Worldzada</h1>
+      {/* Renderizando a página HomePage */}
+      <HomePage />
     </>
-  )
-}
+  );
+};
+
+export default App;
