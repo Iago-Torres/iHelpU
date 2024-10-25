@@ -171,24 +171,52 @@ public partial class BancoTccContext : DbContext
                 .IsUnicode(false)
                 .HasColumnName("telefone");
 
-            entity.HasMany(d => d.Competencia).WithMany(p => p.Usuarios)
-                .UsingEntity<Dictionary<string, object>>(
-                    "UsuarioCompetencium",
-                    r => r.HasOne<Competencia>().WithMany()
-                        .HasForeignKey("CompetenciaId")
-                        .OnDelete(DeleteBehavior.ClientSetNull)
-                        .HasConstraintName("FK__usuario_c__compe__2C3393D0"),
-                    l => l.HasOne<Usuario>().WithMany()
-                        .HasForeignKey("UsuarioId")
-                        .OnDelete(DeleteBehavior.ClientSetNull)
-                        .HasConstraintName("FK__usuario_c__usuar__2B3F6F97"),
-                    j =>
-                    {
-                        j.HasKey("UsuarioId", "CompetenciaId").HasName("PK__usuario___7E1CEABC5C2887C7");
-                        j.ToTable("usuario_competencia");
-                        j.IndexerProperty<int>("UsuarioId").HasColumnName("usuario_id");
-                        j.IndexerProperty<int>("CompetenciaId").HasColumnName("competencia_id");
-                    });
+            // Definindo a relação muitos-para-muitos com Competencia
+            entity.HasMany(d => d.UsuarioCompetencias)
+                .WithOne(p => p.Usuario)
+                .HasForeignKey(d => d.UsuarioId)
+                .OnDelete(DeleteBehavior.ClientSetNull)
+                .HasConstraintName("FK_usuario_competencia_usuario_id");
+        });
+
+        // Configuração da entidade Competencia
+        modelBuilder.Entity<Competencia>(entity =>
+        {
+            entity.HasKey(e => e.Id).HasName("PK_Competencia");
+            entity.ToTable("competencia");
+
+            // Definições de propriedades aqui...
+
+            // Definindo a relação muitos-para-muitos com Usuario
+            entity.HasMany(d => d.UsuarioCompetencias)
+                .WithOne(p => p.Competencia)
+                .HasForeignKey(d => d.CompetenciaId)
+                .OnDelete(DeleteBehavior.ClientSetNull)
+                .HasConstraintName("FK_usuario_competencia_competencia_id");
+        });
+
+        // Configuração da tabela de junção UsuarioCompetencium
+        modelBuilder.Entity<UsuarioCompetencium>(entity =>
+        {
+            entity.HasKey(e => new { e.UsuarioId, e.CompetenciaId }).HasName("PK_usuario_competencia");
+
+            entity.ToTable("usuario_competencia"); // Nome da tabela no banco de dados
+
+            entity.Property(e => e.UsuarioId).HasColumnName("usuario_id");
+            entity.Property(e => e.CompetenciaId).HasColumnName("competencia_id");
+
+            // Definindo as relações
+            entity.HasOne(d => d.Usuario)
+                .WithMany(p => p.UsuarioCompetencias)
+                .HasForeignKey(d => d.UsuarioId)
+                .OnDelete(DeleteBehavior.ClientSetNull)
+                .HasConstraintName("FK_usuario_competencia_usuario_id");
+
+            entity.HasOne(d => d.Competencia)
+                .WithMany(p => p.UsuarioCompetencias)
+                .HasForeignKey(d => d.CompetenciaId)
+                .OnDelete(DeleteBehavior.ClientSetNull)
+                .HasConstraintName("FK_usuario_competencia_competencia_id");
         });
 
         OnModelCreatingPartial(modelBuilder);

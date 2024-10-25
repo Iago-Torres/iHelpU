@@ -7,11 +7,11 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Content Remove="Views\Usuario\Usuario_Competencia.cshtml" />
+    <Content Remove="Views\Usuario\Competencias.cshtml" />
   </ItemGroup>
 
   <ItemGroup>
-    <None Include="Views\Usuario\Usuario_Competencia.cshtml" />
+    <None Include="Views\Usuario\Competencias.cshtml" />
     <None Include="wwwroot\Content\images\Avaliacao.png" />
     <None Include="wwwroot\Content\images\Conexao.png" />
     <None Include="wwwroot\Content\images\Logo.png" />
@@ -31,14 +31,6 @@
 
   <ItemGroup>
     <ProjectReference Include="..\iHelpU.MODEL\iHelpU.MODEL.csproj" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <UpToDateCheckInput Remove="Views\Usuario\Usuario_Competencia.cshtml" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <_ContentIncludedByDefault Remove="Views\Usuario\Usuario_Competencia.cshtml" />
   </ItemGroup>
 
 </Project>

@@ -1,54 +1,30 @@
-﻿@model iHelpU.MODEL.Models.Usuario
+﻿@model IEnumerable<iHelpU.MODEL.Models.Usuario>
 
 @{
-    ViewData["Title"] = "Details";
+    ViewData["Title"] = "Lista de Usuários";
 }
 
-<h1>Details</h1>
-
-<div>
-    <h4>Usuario</h4>
-    <hr />
-    <dl class="row">
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.Id)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.Id)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.PrimeiroNome)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.PrimeiroNome)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.SegundoNome)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.SegundoNome)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.Email)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.Email)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.Cpf)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.Cpf)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.Telefone)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.Telefone)
-        </dd>
-    </dl>
-</div>
-<div>
-    @Html.ActionLink("Edit", "Edit", new { /* id = Model.PrimaryKey */ }) |
-    <a asp-action="Index">Back to List</a>
-</div>
+<h1>Lista de Usuários</h1>
+<table class="table">
+    <thead>
+        <tr>
+            <th>Nome</th>
+            <th>Sobrenome</th>
+            <th>Email</th>
+            <th>Ações</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var usuario in Model)
+        {
+            <tr>
+                <td>@usuario.PrimeiroNome</td>
+                <td>@usuario.SegundoNome</td>
+                <td>@usuario.Email</td>
+                <td>
+                    <a asp-action="CompetenciasPorUsuario" asp-route-id="@usuario.Id" class="btn btn-info">Ver Competências</a>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>

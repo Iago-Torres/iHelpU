@@ -22,4 +22,5 @@ public partial class Usuario
     public virtual ICollection<ContratacaoServico> ContratacaoServicos { get; set; } = new List<ContratacaoServico>();
 
     public virtual ICollection<Competencia> Competencia { get; set; } = new List<Competencia>();
+    public virtual ICollection<UsuarioCompetencium> UsuarioCompetencias { get; set; } = new List<UsuarioCompetencium>();
 }

@@ -16,4 +16,5 @@ public partial class Competencia
     public virtual TipoServico? TipoServico { get; set; }
 
     public virtual ICollection<Usuario> Usuarios { get; set; } = new List<Usuario>();
+    public virtual ICollection<UsuarioCompetencium> UsuarioCompetencias { get; set; } = new List<UsuarioCompetencium>();
 }
