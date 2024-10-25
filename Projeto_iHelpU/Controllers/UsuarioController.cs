@@ -15,6 +15,7 @@ namespace Projeto_iHelpU.Controllers
         public UsuarioController(BancoTccContext context)
         {
             _serviceUsuario = new UsuarioService(context); // Inicializa o serviço com o contexto
+           
         }
 
         // Exibir lista de usuários
@@ -108,5 +109,6 @@ namespace Projeto_iHelpU.Controllers
             ViewData["Mensagem"] = "Usuário excluído com sucesso.";
             return RedirectToAction(nameof(Index));
         }
+
     }
 }

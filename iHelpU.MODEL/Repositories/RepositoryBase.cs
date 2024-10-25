@@ -6,6 +6,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Mvc;
 
 namespace iHelpU.MODEL.Repositories
 {
@@ -116,6 +117,24 @@ namespace iHelpU.MODEL.Repositories
         {
             return await _context.Set<T>().ToListAsync();
         }
+
+        //public IActionResult ListaUsuarios()
+        //{
+        //    var usuarios = _context.Usuarios
+        //        .Include(u => u.usuario_competencia)
+        //        .ThenInclude(uc => uc.Competencia)
+        //        .ToList();
+        //    return View(usuarios);
+        //}
+
+        //public IActionResult CompetenciasPorUsuario(int id)
+        //{
+        //    var usuario = _context.Usuarios
+        //        .Include(u => u.)
+        //        .ThenInclude(uc => uc.Competencia)
+        //        .FirstOrDefault(u => u.Id == id);
+        //    return View(usuario);
+        //}
     }
 }
 
