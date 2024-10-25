@@ -14,7 +14,6 @@ public partial class BancoTccContext : DbContext
         : base(options)
     {
     }
-
     public virtual DbSet<AnuncioServico> AnuncioServicos { get; set; }
 
     public virtual DbSet<Avaliacao> Avaliacaos { get; set; }
@@ -27,9 +26,11 @@ public partial class BancoTccContext : DbContext
 
     public virtual DbSet<Usuario> Usuarios { get; set; }
 
+    public virtual DbSet<UsuarioCompetencium> UsuarioCompetencia { get; set; }
+
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
 #warning To protect potentially sensitive information in your connection string, you should move it out of source code. You can avoid scaffolding the connection string by using the Name= syntax to read it from configuration - see https://go.microsoft.com/fwlink/?linkid=2131148. For more guidance on storing connection strings, see https://go.microsoft.com/fwlink/?LinkId=723263.
-        => optionsBuilder.UseSqlServer("Server=.\\SQLExpress;Database=Banco_TCC;Trusted_Connection=True;trustservercertificate=true");
+        => optionsBuilder.UseSqlServer("Server=SAMSUNG-DESKTOP\\SQLExpress;Database=Banco_TCC;Trusted_Connection=True;trustservercertificate=true");
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
@@ -192,6 +193,7 @@ public partial class BancoTccContext : DbContext
 
         OnModelCreatingPartial(modelBuilder);
     }
+
 
     partial void OnModelCreatingPartial(ModelBuilder modelBuilder);
 }

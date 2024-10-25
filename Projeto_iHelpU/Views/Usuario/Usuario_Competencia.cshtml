@@ -1,0 +1,30 @@
+﻿@model IEnumerable<iHelpU.MODEL.Models.Usuario>
+
+@{
+    ViewData["Title"] = "Lista de Usuários";
+}
+
+<h1>Lista de Usuários</h1>
+<table class="table">
+    <thead>
+        <tr>
+            <th>Nome</th>
+            <th>Sobrenome</th>
+            <th>Email</th>
+            <th>Ações</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var usuario in Model)
+        {
+            <tr>
+                <td>@usuario.PrimeiroNome</td>
+                <td>@usuario.SegundoNome</td>
+                <td>@usuario.Email</td>
+                <td>
+                    <a asp-action="CompetenciasPorUsuario" asp-route-id="@usuario.Id" class="btn btn-info">Ver Competências</a>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>

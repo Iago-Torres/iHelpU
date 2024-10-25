@@ -1,8 +1,6 @@
 ﻿using iHelpU.MODEL.Models;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
-using NuGet.Protocol.Core.Types;
-using iHelpU.MODEL.Repositories;
 using iHelpU.MODEL.Services;
 
 namespace Projeto_iHelpU.Controllers
@@ -10,12 +8,13 @@ namespace Projeto_iHelpU.Controllers
     public class UsuarioController : Controller
     {
         private readonly UsuarioService _serviceUsuario;
+        private readonly BancoTccContext _context;
 
-        // Injeção de dependência do serviço
+        // Injeção de dependência do contexto e serviço
         public UsuarioController(BancoTccContext context)
         {
+            _context = context;
             _serviceUsuario = new UsuarioService(context); // Inicializa o serviço com o contexto
-           
         }
 
         // Exibir lista de usuários
@@ -76,6 +75,7 @@ namespace Projeto_iHelpU.Controllers
             }
         }
 
+        // Detalhes do usuário
         public async Task<IActionResult> Details(int id)
         {
             var usuario = await _serviceUsuario.oRepositoryUsuario.SelecionarChaveAsync(id);
@@ -86,6 +86,7 @@ namespace Projeto_iHelpU.Controllers
             return View(usuario);
         }
 
+        // Exibir a página de confirmação para excluir um usuário
         public async Task<IActionResult> Delete(int id)
         {
             var usuario = await _serviceUsuario.oRepositoryUsuario.SelecionarChaveAsync(id);
@@ -96,7 +97,8 @@ namespace Projeto_iHelpU.Controllers
             return View(usuario);
         }
 
-        [HttpPost]
+        // Confirmar exclusão do usuário
+        [HttpPost, ActionName("Delete")]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
             var usuario = await _serviceUsuario.oRepositoryUsuario.SelecionarChaveAsync(id);
@@ -109,6 +111,31 @@ namespace Projeto_iHelpU.Controllers
             ViewData["Mensagem"] = "Usuário excluído com sucesso.";
             return RedirectToAction(nameof(Index));
         }
+
+
+        public IActionResult ListaUsuarios()
+        {
+            var usuarios = _serviceUsuario.oRepositoryUsuario
+                .ObterTodos()
+                .Include(u => u.Competencia) 
+                .ToList();
+            return View(usuarios);
+        }
+
+        public IActionResult CompetenciasPorUsuario(int id)
+        {
+            var usuario = _serviceUsuario.oRepositoryUsuario
+                .ObterTodos()
+                .Include(u => u.Competencia) 
+                .FirstOrDefault(u => u.Id == id); 
+
+            if (usuario == null)
+            {
+                return NotFound();
+            }
+            return View(usuario);
+        }
+
 
     }
 }
