@@ -1,0 +1,113 @@
+﻿header {
+    text-align: center;
+    background-color: #2b2b2b;
+    padding: 10px;
+}
+
+    header h1 {
+        color: white; 
+        margin-bottom: 10px;
+    }
+
+nav ul {
+    list-style-type: none; 
+    padding: 0; 
+    display: flex; 
+    justify-content: center; 
+}
+
+    nav ul li {
+        margin: 0 10px; 
+    }
+
+        nav ul li a {
+            text-decoration: none; 
+            color: white; 
+            font-weight: bold; 
+            padding: 10px;
+            transition: background-color 0.3s; 
+        }
+
+            nav ul li a:hover {
+                background-color: rgba(255, 255, 255, 0.2); 
+                border-radius: 5px; 
+            }
+
+.hero-container {
+    position: relative;
+    width: 100%;
+    max-width: 800px; 
+    aspect-ratio: 16/9; 
+    margin: 0 auto;
+    overflow: hidden; 
+
+}
+
+.hero-container img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover; 
+    filter: brightness(50%); 
+}
+
+.hero-container h2 {
+    position: absolute;
+    left: 50%;
+    transform: translateX(-50%);
+    color: white;
+    z-index: 2;
+    text-align: center;
+    top: 40%; 
+    font-size: 2rem;
+}
+
+.hero-btn {
+    display: block; 
+    width: 300px; 
+    padding: 15px; 
+    background-color: white; 
+    color: #ff5733; 
+    font-size: 1.5rem; 
+    border: none;
+    border-radius: 5px; 
+    text-align: center; 
+    margin: 20px auto; 
+    cursor: pointer;
+}
+
+.hero-btn:hover {
+    background-color: #f0f0f0; 
+}
+.features {
+    text-align: center;
+}
+
+.feature {
+    margin-bottom: 40px;
+}
+
+    .feature img {
+        width: 100%;
+        max-width: 300px; 
+        height: 200px; 
+        object-fit: cover; 
+        border-radius: 5px; 
+    }
+
+.feature-btn {
+    display: inline-block; 
+    width: 200px; 
+    padding: 15px;
+    background-color: white; 
+    color: #ff5733; 
+    font-size: 1.5rem; 
+    border: none;
+    border-radius: 5px; 
+    text-align: center; 
+    margin: 20px; 
+    cursor: pointer;
+}
+
+    .feature-btn:hover {
+        background-color: #f0f0f0; 
+    }

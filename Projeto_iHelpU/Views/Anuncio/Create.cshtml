@@ -1,0 +1,74 @@
+﻿@model iHelpU.MODEL.Models.AnuncioServico
+
+@{
+    ViewData["Title"] = "Create";
+}
+
+<h1>Solicitar Serviço</h1>
+
+<h4>Anúncio de Serviço</h4>
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form asp-action="Create">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <input type="hidden" asp-for="Id" />
+
+            <div class="form-group mb-3">
+                <label asp-for="TipoServicoId" class="control-label">ID do Tipo de Serviço</label>
+                <input asp-for="TipoServicoId" class="form-control" />
+                <span asp-validation-for="TipoServicoId" class="text-danger"></span>
+            </div>
+
+            <div class="form-group mb-3">
+                <label asp-for="UsuarioId" class="control-label">ID do Usuário</label>
+                <input asp-for="UsuarioId" class="form-control" />
+                <span asp-validation-for="UsuarioId" class="text-danger"></span>
+            </div>
+
+            <div class="form-group mb-3">
+                <label asp-for="NomeServico" class="control-label">Nome do Serviço</label>
+                <input asp-for="NomeServico" class="form-control" />
+                <span asp-validation-for="NomeServico" class="text-danger"></span>
+            </div>
+
+            <div class="form-group mb-3">
+                <label asp-for="Descricao" class="control-label">Descrição</label>
+                <textarea asp-for="Descricao" class="form-control"></textarea>
+                <span asp-validation-for="Descricao" class="text-danger"></span>
+            </div>
+
+            <div class="form-group mb-3">
+                <label asp-for="CoordenadaX" class="control-label">Coordenada X</label>
+                <input asp-for="CoordenadaX" class="form-control" />
+                <span asp-validation-for="CoordenadaX" class="text-danger"></span>
+            </div>
+
+            <div class="form-group mb-3">
+                <label asp-for="CoordenadaY" class="control-label">Coordenada Y</label>
+                <input asp-for="CoordenadaY" class="form-control" />
+                <span asp-validation-for="CoordenadaY" class="text-danger"></span>
+            </div>
+
+            <div class="form-group mb-3">
+                <label asp-for="IdStatus" class="control-label">ID do Status</label>
+                <input asp-for="IdStatus" class="form-control" />
+                <span asp-validation-for="IdStatus" class="text-danger"></span>
+            </div>
+
+            <div class="form-group">
+                <input type="submit" value="Criar" class="btn btn-primary" />
+            </div>
+        </form>
+    </div>
+</div>
+
+<div>
+    <a asp-area="" asp-controller="iHelpU" asp-action="HomePage">Voltar para a Página Inicial</a>
+</div>
+
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+}

@@ -1,0 +1,124 @@
+﻿@model iHelpU.MODEL.Models.Usuario
+
+@{
+    ViewData["Title"] = "Create";
+}
+
+<style>
+    body {
+        background-color: #2c2c2c; 
+        color: #ffffff; 
+        font-family: 'Arial', sans-serif;
+    }
+
+    .form-group label, .form-group input::placeholder {
+        color: #ffffff; 
+    }
+
+    .form-control {
+        background-color: #3d3d3d; 
+        color: #ffffff; 
+        border: none;
+    }
+
+        .form-control::placeholder {
+            color: #b3b3b3; 
+        }
+
+    .btn-primary {
+        background-color: #4CAF50;
+        border: none;
+    }
+
+        .btn-primary:hover {
+            background-color: #45a049;
+        }
+
+    .btn-secondary {
+        background-color: #6c757d;
+        border: none;
+    }
+
+        .btn-secondary:hover {
+            background-color: #5a6268;
+        }
+
+    .col-md-6 {
+        background-color: #333333; 
+        color: #ffffff; 
+        padding: 30px;
+        border-radius: 10px;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    }
+
+    h1 {
+        color: #ffffff;
+        text-align: center;
+    }
+
+    .alert-danger {
+        background-color: #dc3545;
+        color: #ffffff;
+        border: none;
+    }
+</style>
+
+<h1>Cadastro de Usuário</h1>
+<hr />
+
+<div class="row justify-content-center">
+    <div class="col-md-6">
+        <form asp-action="Create">
+            <div asp-validation-summary="ModelOnly" class="alert alert-danger"></div>
+
+            <div class="form-row">
+                <div class="col">
+                    <div class="form-group">
+                        <label asp-for="PrimeiroNome" class="control-label">Nome</label>
+                        <input asp-for="PrimeiroNome" class="form-control" placeholder="Iago" />
+                        <span asp-validation-for="PrimeiroNome" class="text-danger"></span>
+                    </div>
+                </div>
+                <div class="col">
+                    <div class="form-group">
+                        <label asp-for="SegundoNome" class="control-label">Sobrenome</label>
+                        <input asp-for="SegundoNome" class="form-control" placeholder="Torres Limeira" />
+                        <span asp-validation-for="SegundoNome" class="text-danger"></span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label asp-for="Email" class="control-label">Email</label>
+                <input asp-for="Email" class="form-control" placeholder="iago@ihelpu.com" />
+                <span asp-validation-for="Email" class="text-danger"></span>
+            </div>
+
+            <div class="form-group">
+                <label asp-for="Cpf" class="control-label">CPF</label>
+                <input asp-for="Cpf" class="form-control" placeholder="000.000.000-00" />
+                <span asp-validation-for="Cpf" class="text-danger"></span>
+            </div>
+
+            <div class="form-group">
+                <label asp-for="Telefone" class="control-label">Telefone</label>
+                <input asp-for="Telefone" class="form-control" placeholder="(00) 00000-0000" />
+                <span asp-validation-for="Telefone" class="text-danger"></span>
+            </div>
+
+            <div class="form-group text-center">
+                <input type="submit" value="Criar Conta" class="btn btn-lg btn-primary" style="width: 100%;" />
+            </div>
+        </form>
+    </div>
+</div>
+
+<div class="text-center mt-3">
+    <a asp-action="Index" asp-controller="Home" class="btn btn-secondary">Voltar à Página Inicial</a>
+</div>
+
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+}

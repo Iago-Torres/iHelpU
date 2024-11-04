@@ -1,0 +1,70 @@
+﻿@model iHelpU.MODEL.Models.Usuario
+
+@{
+    ViewData["Title"] = "Perfil do Usuário";
+}
+
+<h1>Perfil do Usuário</h1>
+
+<!-- ComboBox para escolher o usuário -->
+<form asp-action="Perfil" method="get">
+    <div class="form-group">
+        <label for="usuarioId">Escolha o usuário:</label>
+        <select id="usuarioId" name="usuarioId" class="form-control">
+            <option value="">Selecione um usuário</option>
+            @foreach (var usuario in ViewBag.Usuarios)
+            {
+                if (Model != null && Model.Id == usuario.Id)
+                {
+                    <option value="@usuario.Id" selected="selected">@usuario.PrimeiroNome @usuario.SegundoNome</option>
+                }
+                else
+                {
+                    <option value="@usuario.Id">@usuario.PrimeiroNome @usuario.SegundoNome</option>
+                }
+            }
+        </select>
+
+
+    </div>
+    <button type="submit" class="btn btn-primary">Exibir Perfil</button>
+</form>
+
+<hr />
+
+@if (Model != null)
+{
+    <form asp-action="UpdateProfile" method="post">
+        <div class="form-group">
+            <label asp-for="PrimeiroNome">Nome</label>
+            <input asp-for="PrimeiroNome" class="form-control" />
+            <span asp-validation-for="PrimeiroNome" class="text-danger"></span>
+        </div>
+
+        <div class="form-group">
+            <label asp-for="SegundoNome">Sobrenome</label>
+            <input asp-for="SegundoNome" class="form-control" />
+            <span asp-validation-for="SegundoNome" class="text-danger"></span>
+        </div>
+
+        <div class="form-group">
+            <label asp-for="Email">Email</label>
+            <input asp-for="Email" class="form-control" />
+            <span asp-validation-for="Email" class="text-danger"></span>
+        </div>
+
+        <div class="form-group">
+            <label asp-for="Cpf">CPF</label>
+            <input asp-for="Cpf" class="form-control" />
+            <span asp-validation-for="Cpf" class="text-danger"></span>
+        </div>
+
+        <div class="form-group">
+            <label asp-for="Telefone">Telefone</label>
+            <input asp-for="Telefone" class="form-control" />
+            <span asp-validation-for="Telefone" class="text-danger"></span>
+        </div>
+
+        <button type="submit" class="btn btn-success">Salvar Alterações</button>
+    </form>
+}

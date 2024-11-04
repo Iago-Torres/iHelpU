@@ -1,0 +1,89 @@
+﻿@model iHelpU.MODEL.ViewModel.HomePageVM
+
+<style>
+    .home-container {
+        text-align: center;
+        background-color: #333;
+        color: #fff;
+        padding: 20px;
+    }
+
+    .welcome-message {
+        font-size: 24px;
+        margin-top: 20px;
+    }
+
+    .map-image {
+        width: 100%;
+        max-width: 600px;
+        height: auto;
+        margin: 20px auto;
+    }
+
+    .announcements {
+        margin-top: 30px;
+    }
+
+    .announcement-item {
+        background-color: #444;
+        padding: 15px;
+        margin-bottom: 10px;
+        border-radius: 8px;
+        color: #ddd;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        text-align: left; /* Alinha todo o conteúdo à esquerda */
+    }
+
+    .announcement-content {
+        text-align: left; /* Garante alinhamento à esquerda dos textos */
+        flex: 1; /* Ocupa o espaço disponível ao lado do botão */
+    }
+
+    .request-button, .details-button {
+        padding: 10px 20px;
+        font-size: 16px;
+        border: none;
+        border-radius: 5px;
+        color: #fff;
+    }
+
+    .request-button {
+        margin-top: 30px;
+        background-color: #007bff;
+    }
+
+    .details-button {
+        background-color: #28a745; /* Cor verde */
+    }
+</style>
+
+<div class="home-container">
+    <div class="welcome-message">
+        @Model.MensagemBemVindo
+    </div>
+
+    <img src="~/images/map-placeholder.jpg" alt="Mapa" class="map-image" />
+
+    <div class="announcements">
+        <h2>Anúncios de Serviços</h2>
+        @foreach (var anuncio in Model.Anuncios)
+
+        {
+            <div class="announcement-item">
+                <div class="announcement-content">
+                    <h3>@anuncio.NomeServico</h3>
+                    <p>@anuncio.Descricao</p>
+                </div>
+                <button class="details-button" onclick="window.location.href='@Url.Action("Details", "Anuncio", new { id = anuncio.Id })'">
+                    Ver Detalhes
+                </button>
+            </div>
+        }
+    </div>
+
+    <button class="request-button" onclick="window.location.href='@Url.Action("Create", "Anuncio")'">
+        Solicitar Serviço
+    </button>
+</div>

@@ -1,0 +1,58 @@
+﻿@{
+    ViewData["Title"] = "Home Page";
+}
+
+@{
+    ViewBag.Title = "iHelpU";
+}
+
+<link rel="stylesheet" href="~/Content/style.css" />
+
+<header>
+    <h1>iHelpU</h1>
+    <nav>
+        <ul>
+            <li><a href="@Url.Action("Index", "Home")">Início</a></li>
+            <li><a href="@Url.Action("AboutUs", "Home")">Sobre Nós</a></li>
+            <li><a href="@Url.Action("Bemvindo", "Usuario")">Login</a></li>
+        </ul>
+    </nav>
+</header>
+
+<main>
+    <section class="hero">
+        <div class="hero-container">
+            <img src="~/Content/images/Pagina_Inicial.png" alt="Conectando profissionais e clientes" />
+            <h2>Conectando profissionais e clientes de forma rápida e confiável</h2>
+        </div>
+    </section>
+    <button class="hero-btn">@Html.ActionLink("Comece hoje mesmo!", "BemVindo", "Usuario", null, new { @class = "btn-link" })</button>
+    
+
+
+
+
+
+    <section class="welcome">
+        <h3>Bem Vindo ao iHelpU</h3>
+        <p>No iHelpU conectamos você que precisa de alguém pra um trabalho rápido e/ou continuo e pra você que quer demonstrar suas habilidades em empregos com a sua cara.</p>
+    </section>
+
+    <section class="features">
+        <h2>O que fazemos?</h2>
+
+        <div class="feature">
+            <img src="~/Content/images/Conexao.png" alt="Conexão Instantânea" />
+            <h3>Conexão Instantânea com Profissionais Qualificados</h3>
+            <p>Facilite a contratação de prestadores de serviço especializados em áreas como construção, jardinagem, e reparos domésticos, com poucos cliques e profissionais verificados próximas de você.</p>
+        </div>
+
+        <div class="feature">
+            <img src="~/Content/images/Avaliacao.png" alt="Avaliação Mútua" />
+            <h3>Avaliação Mútua e Transparência</h3>
+            <p>Permita que clientes e profissionais se avaliem mutuamente após cada serviço, promovendo confiança, qualidade e segurança em todas as contratações realizadas pela plataforma.</p>
+        </div>
+        <a href="@Url.Action("AboutUs", "Home")" class="feature-btn">Saiba mais</a>
+    </section>
+</main>
+
