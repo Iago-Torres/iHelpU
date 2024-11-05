@@ -1,0 +1,34 @@
+﻿@model IEnumerable<iHelpU.MODEL.Models.AnuncioServico>
+
+@{
+    ViewData["Title"] = "Meus Serviços Criados";
+}
+
+<h2>Meus Serviços Criados</h2>
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>Nome do Serviço</th>
+            <th>Descrição</th>
+            <th>Tipo de Serviço</th>
+            <th>Status</th>
+            <th>Ações</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var anuncio in Model)
+        {
+            <tr>
+                <td>@anuncio.NomeServico</td>
+                <td>@anuncio.Descricao</td>
+                <td>@anuncio.TipoServico?.Descricao</td>
+                <td>@anuncio.IdStatusNavigation?.Descricao</td>
+                <td>
+                    <a asp-action="Edit" asp-route-id="@anuncio.Id" class="btn btn-warning">Editar</a>
+                    <a asp-action="Delete" asp-route-id="@anuncio.Id" class="btn btn-danger">Excluir</a>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
