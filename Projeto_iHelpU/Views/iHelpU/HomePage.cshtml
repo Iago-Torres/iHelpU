@@ -1,5 +1,19 @@
 ﻿@model iHelpU.MODEL.ViewModel.HomePageVM
 
+@{
+    if (User.Identity.IsAuthenticated)
+
+    {
+        <h2>Bem-vindo, @User.Identity.Name!</h2>
+    }
+
+    else
+
+    {
+        <h2>Usuário não autenticado</h2>
+    }
+}
+
 <style>
     .home-container {
         text-align: center;
@@ -33,12 +47,12 @@
         display: flex;
         justify-content: space-between;
         align-items: center;
-        text-align: left; /* Alinha todo o conteúdo à esquerda */
+        text-align: left;
     }
 
     .announcement-content {
-        text-align: left; /* Garante alinhamento à esquerda dos textos */
-        flex: 1; /* Ocupa o espaço disponível ao lado do botão */
+        text-align: left;
+        flex: 1;
     }
 
     .request-button, .details-button {
@@ -55,7 +69,7 @@
     }
 
     .details-button {
-        background-color: #28a745; /* Cor verde */
+        background-color: #28a745;
     }
 </style>
 

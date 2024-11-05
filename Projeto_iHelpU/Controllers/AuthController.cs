@@ -18,30 +18,52 @@ namespace Projeto_iHelpU.Controllers
             _usuarioService = usuarioService;
         }
 
+        // Exibe a página de login
+        [HttpGet]
+        public IActionResult Login()
+        {
+            if (User.Identity.IsAuthenticated)
+            {
+                return RedirectToAction("HomePage", "iHelpU");
+            }
+            return View();
+        }
+
         [HttpPost]
         public async Task<IActionResult> Login(LoginVM model)
         {
             if (ModelState.IsValid)
             {
+                // Busca o usuário pelo email e senha
                 var usuario = await _usuarioService.ObterUsuarioporCredencial(model.Email, model.Senha);
 
                 if (usuario != null)
                 {
+                    // Define as claims com o nome e ID do usuário
                     var claims = new List<Claim>
-                {
-                    new Claim(ClaimTypes.Name, usuario.PrimeiroNome),
-                    new Claim(ClaimTypes.NameIdentifier, usuario.Id.ToString())
-                };
+                    {
+                        new Claim(ClaimTypes.Name, usuario.PrimeiroNome),
+                        new Claim(ClaimTypes.NameIdentifier, usuario.Id.ToString())
+                    };
 
                     var claimsIdentity = new ClaimsIdentity(claims, CookieAuthenticationDefaults.AuthenticationScheme);
                     await HttpContext.SignInAsync(CookieAuthenticationDefaults.AuthenticationScheme, new ClaimsPrincipal(claimsIdentity));
 
+                    // Redireciona para a página inicial após login
                     return RedirectToAction("HomePage", "iHelpU");
                 }
 
                 ModelState.AddModelError("", "Credenciais inválidas.");
             }
-            return View(model); // redireciona para a página de login se falhar
+            return View(model);
+        }
+
+        // Logout do usuário
+        [HttpPost]
+        public async Task<IActionResult> Logout()
+        {
+            await HttpContext.SignOutAsync(CookieAuthenticationDefaults.AuthenticationScheme);
+            return RedirectToAction("Login", "Auth");
         }
     }
 }

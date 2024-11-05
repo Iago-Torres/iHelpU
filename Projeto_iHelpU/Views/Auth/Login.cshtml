@@ -1,0 +1,69 @@
+﻿@model iHelpU.MODEL.ViewModel.LoginVM
+
+
+@{
+    ViewData["Title"] = "Login";
+}
+
+<style>
+    body {
+        background-color: #333333;
+        font-family: 'Arial', sans-serif;
+    }
+
+    .form-group label {
+        color: #ffffff;
+    }
+
+    .btn-primary {
+        background-color: #4CAF50;
+        border: none;
+    }
+
+        .btn-primary:hover {
+            background-color: #45a049;
+        }
+
+    .col-md-6 {
+        background-color: #333334;
+        padding: 30px;
+        border-radius: 10px;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    }
+
+    h1 {
+        color: #ffffff;
+        text-align: center;
+    }
+</style>
+
+<h1>Login</h1>
+<hr />
+
+<div class="row justify-content-center">
+    <div class="col-md-6">
+        <form asp-action="Login">
+            <div asp-validation-summary="ModelOnly" class="alert alert-danger"></div>
+
+            <div class="form-group">
+                <label asp-for="Email" class="control-label">Email</label>
+                <input asp-for="Email" class="form-control" placeholder="exemplo@dominio.com" />
+                <span asp-validation-for="Email" class="text-danger"></span>
+            </div>
+
+            <div class="form-group">
+                <label asp-for="Senha" class="control-label">Senha</label>
+                <input asp-for="Senha" class="form-control" placeholder="Digite sua senha" />
+                <span asp-validation-for="Senha" class="text-danger"></span>
+            </div>
+            <div class="form-group text-center">
+                <input type="submit" value="Entrar" class="btn btn-lg btn-primary" style="width: 100%;" />
+            </div>
+        </form>
+    </div>
+</div>
+
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}

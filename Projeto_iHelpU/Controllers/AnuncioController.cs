@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using System.Threading.Tasks;
 using System.Linq;
+using System.Security.Claims;
 
 namespace Projeto_iHelpU.Controllers
 {
@@ -26,11 +27,9 @@ namespace Projeto_iHelpU.Controllers
 
             return View(anuncios);
         }
-
-        // Exibe os serviços criados pelo usuário logado
-        public async Task<IActionResult> MeusServicosCriados()
+        public async Task<IActionResult> ServicosCriados()
         {
-            var userId = User.FindFirst("sub")?.Value;
+            var userId = User.FindFirst(ClaimTypes.NameIdentifier)?.Value ?? "4"; // "1" é um ID de teste.
             if (userId == null) return Unauthorized();
 
             var servicosCriados = await _context.AnuncioServicos
