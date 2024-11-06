@@ -17,7 +17,6 @@ builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationSc
     .AddCookie(options =>
     {
         options.LoginPath = "/Auth/Login";
-        //options.LogoutPath = "/Auth/Logout";
         options.Cookie.HttpOnly = true;
     });
 
@@ -25,7 +24,7 @@ builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationSc
 builder.Services.AddScoped<IUsuario_Service, UsuarioService>();
 builder.Services.AddScoped<IRepositoryBase<AnuncioServico>, RepositoryAnuncioServico>();
 builder.Services.AddScoped<IAnuncioServico_Service, AnuncioServico_Service>();
-builder.Services.AddScoped<IAuthService, AuthService>();
+builder.Services.AddScoped<IAuthService, AuthService>(); // Registra AuthService como IAuthService
 builder.Services.AddHttpContextAccessor();
 
 builder.Services.AddSession(options =>
@@ -51,8 +50,7 @@ app.UseStaticFiles();
 
 app.UseRouting();
 
-app.UseAuthorization();
-
+// Mapeamento da rota padrão
 app.MapControllerRoute(
     name: "default",
     pattern: "{controller=Home}/{action=Index}/{id?}");

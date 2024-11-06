@@ -4,6 +4,8 @@ using Microsoft.EntityFrameworkCore;
 using System.Threading.Tasks;
 using System.Linq;
 using System.Security.Claims;
+using iHelpU.MODEL.Services;
+using iHelpU.MODEL.Interface_Services;
 
 namespace Projeto_iHelpU.Controllers
 {
@@ -11,6 +13,7 @@ namespace Projeto_iHelpU.Controllers
     {
         private readonly BancoTccContext _context;
 
+        // Construtor atualizado - garantindo que apenas a dependência necessária seja injetada
         public AnuncioController(BancoTccContext context)
         {
             _context = context;
@@ -27,9 +30,11 @@ namespace Projeto_iHelpU.Controllers
 
             return View(anuncios);
         }
+
+        // Exibe os serviços criados pelo usuário logado
         public async Task<IActionResult> ServicosCriados()
         {
-            var userId = User.FindFirst(ClaimTypes.NameIdentifier)?.Value ?? "4"; // "1" é um ID de teste.
+            var userId = User.FindFirst(ClaimTypes.NameIdentifier)?.Value ?? "4"; // "4" é um ID de teste.
             if (userId == null) return Unauthorized();
 
             var servicosCriados = await _context.AnuncioServicos
@@ -44,7 +49,7 @@ namespace Projeto_iHelpU.Controllers
         // Exibe os serviços prestados pelo usuário logado
         public async Task<IActionResult> MeusServicosPrestados()
         {
-            var userId = User.FindFirst("sub")?.Value;
+            var userId = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
             if (userId == null) return Unauthorized();
 
             var servicosPrestados = await _context.ContratacaoServicos

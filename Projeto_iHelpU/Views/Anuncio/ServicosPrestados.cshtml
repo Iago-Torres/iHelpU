@@ -1,0 +1,81 @@
+﻿@model IEnumerable<iHelpU.MODEL.Models.ContratacaoServico>
+
+@{
+    ViewData["Title"] = "Histórico de Serviços Prestados";
+}
+
+<div class="container my-4">
+    <h2 class="text-center mb-4">Histórico de Serviços Prestados</h2>
+
+    <div class="table-responsive">
+        <table class="table table-hover align-middle text-center text-white">
+            <thead class="table-dark">
+                <tr>
+                    <th scope="col">Serviço</th>
+                    <th scope="col">Descrição</th>
+                    <th scope="col">Cliente</th>
+                    <th scope="col">Data</th>
+                    <th scope="col">Status</th>
+                    <th scope="col">Ações</th>
+                </tr>
+            </thead>
+            <tbody>
+                @if (!Model.Any())
+                {
+                    <tr>
+                        <td colspan="6" class="text-muted">Nenhum serviço prestado encontrado.</td>
+                    </tr>
+                }
+                else
+                {
+                    @foreach (var contratacao in Model)
+                    {
+                        <tr>
+                            <td>@contratacao.AnuncioServico?.NomeServico</td>
+                            <td>@contratacao.AnuncioServico?.Descricao</td>
+                            <td>@contratacao.AnuncioServico?.TipoServicoId</td>
+                            <td>@contratacao.AnuncioServico?.Usuario</td>
+                            <td>@contratacao.AnuncioServico?.IdStatusNavigation?.Descricao</td>
+                            <td>
+                                <a asp-action="ViewDetails" asp-route-id="@contratacao.Id" class="btn btn-sm btn-info me-1 text-white">
+                                    <i class="bi bi-eye"></i> Ver Detalhes
+                                </a>
+                                <a asp-action="AddReview" asp-route-id="@contratacao.Id" class="btn btn-sm btn-success text-white">
+                                    <i class="bi bi-star"></i> Avaliar
+                                </a>
+                            </td>
+                        </tr>
+                    }
+                }
+            </tbody>
+        </table>
+    </div>
+</div>
+
+<style>
+    .table-hover tbody tr:hover {
+        background-color: #343a40; /* Cor de destaque ao passar o mouse */
+    }
+
+    .text-center {
+        font-weight: 600;
+        font-size: 1.5rem;
+        color: #fff; /* Texto branco para o título */
+    }
+
+    .table {
+        box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
+        border-radius: 8px;
+        overflow: hidden;
+    }
+
+    .table thead th,
+    .table tbody td {
+        color: #ffffff; /* Letras brancas */
+    }
+
+    .btn-info,
+    .btn-success {
+        color: #fff;
+    }
+</style>
