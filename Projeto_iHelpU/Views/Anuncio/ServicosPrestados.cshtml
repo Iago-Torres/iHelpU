@@ -4,63 +4,132 @@
     ViewData["Title"] = "Histórico de Serviços Prestados";
 }
 
-<div class="container my-4">
-    <h2 class="text-center mb-4">Histórico de Serviços Prestados</h2>
+<div class="home-container">
+    <!-- Menu Lateral -->
+    <div class="sidebar">
+        <h3>Menu</h3>
+        <a href="@Url.Action("HomePage", "iHelpU")">Página Inicial</a>
+        <a href="@Url.Action("Create", "Anuncio")">Solicitar Serviço</a>
+        <a href="@Url.Action("ServicosCriados", "Anuncio")">Gerenciar Serviços</a>
+        <a href="@Url.Action("ServicosPrestados", "Anuncio")">Histórico de Serviços</a>
+        @if (User.Identity.IsAuthenticated)
+        {
+            <form method="post" asp-action="Logout" asp-controller="Auth" class="d-inline">
+                <button type="submit" class="logout-button">
+                    Sair
+                </button>
+            </form>
+        }
+    </div>
 
-    <div class="table-responsive">
-        <table class="table table-hover align-middle text-center text-white">
-            <thead class="table-dark">
-                <tr>
-                    <th scope="col">Serviço</th>
-                    <th scope="col">Descrição</th>
-                    <th scope="col">Cliente</th>
-                    <th scope="col">Data</th>
-                    <th scope="col">Status</th>
-                    <th scope="col">Ações</th>
-                </tr>
-            </thead>
-            <tbody>
-                @if (!Model.Any())
-                {
-                    <tr>
-                        <td colspan="6" class="text-muted">Nenhum serviço prestado encontrado.</td>
-                    </tr>
-                }
-                else
-                {
-                    @foreach (var contratacao in Model)
-                    {
+    <!-- Conteúdo Principal -->
+    <div class="content">
+        <div class="container my-4">
+            <h2 class="text-center mb-4">Histórico de Serviços Prestados</h2>
+
+            <div class="table-responsive">
+                <table class="table table-hover align-middle text-center text-white">
+                    <thead class="table-dark">
                         <tr>
-                            <td>@contratacao.AnuncioServico?.NomeServico</td>
-                            <td>@contratacao.AnuncioServico?.Descricao</td>
-                            <td>@contratacao.AnuncioServico?.TipoServicoId</td>
-                            <td>@contratacao.AnuncioServico?.Usuario</td>
-                            <td>@contratacao.AnuncioServico?.IdStatusNavigation?.Descricao</td>
-                            <td>
-                                <a asp-action="ViewDetails" asp-route-id="@contratacao.Id" class="btn btn-sm btn-info me-1 text-white">
-                                    <i class="bi bi-eye"></i> Ver Detalhes
-                                </a>
-                                <a asp-action="AddReview" asp-route-id="@contratacao.Id" class="btn btn-sm btn-success text-white">
-                                    <i class="bi bi-star"></i> Avaliar
-                                </a>
-                            </td>
+                            <th scope="col">Serviço</th>
+                            <th scope="col">Descrição</th>
+                            <th scope="col">Status</th>
+                            <th scope="col">Ações</th>
                         </tr>
-                    }
-                }
-            </tbody>
-        </table>
+                    </thead>
+                    <tbody>
+                        @if (!Model.Any())
+                        {
+                            <tr>
+                                <td colspan="6" class="text-muted">Nenhum serviço prestado encontrado.</td>
+                            </tr>
+                        }
+                        else
+                        {
+                            @foreach (var contratacao in Model)
+                            {
+                                <tr>
+                                    <td>@contratacao.AnuncioServico?.NomeServico</td>
+                                    <td>@contratacao.AnuncioServico?.Descricao</td>
+                                    <td>@contratacao.AnuncioServico?.IdStatusNavigation?.Descricao</td>
+                                    <td>
+                                        <a asp-action="Details" asp-route-id="@contratacao.Id" class="btn btn-sm btn-info me-1 text-white">
+                                            <i class="bi bi-eye"></i> Ver Detalhes
+                                        </a>
+                                        <a asp-action="AddReview" asp-route-id="@contratacao.Id" class="btn btn-sm btn-success text-white">
+                                            <i class="bi bi-star"></i> Avaliar
+                                        </a>
+                                    </td>
+                                </tr>
+                            }
+                        }
+                    </tbody>
+                </table>
+            </div>
+        </div>
     </div>
 </div>
 
 <style>
+    /* Container principal */
+    .home-container {
+        display: flex;
+        height: 100vh;
+        background-color: #333;
+        color: #fff;
+        margin: 0;
+    }
+
+    /* Menu lateral */
+    .sidebar {
+        width: 250px;
+        background-color: #222;
+        padding: 20px;
+        position: fixed;
+        height: 100%;
+        left: 0;
+    }
+
+        .sidebar a {
+            color: #fff;
+            text-decoration: none;
+            display: block;
+            padding: 10px;
+            margin-bottom: 10px;
+            border-radius: 5px;
+            background-color: #444;
+        }
+
+            .sidebar a:hover {
+                background-color: #007bff;
+            }
+
+    .logout-button {
+        padding: 10px 20px;
+        font-size: 16px;
+        border: none;
+        border-radius: 5px;
+        color: #fff;
+        background-color: #dc3545;
+        margin-top: 20px;
+    }
+
+    /* Conteúdo principal */
+    .content {
+        margin-left: 250px;
+        padding: 20px;
+        width: calc(100% - 250px);
+        color: #ddd;
+    }
+
     .table-hover tbody tr:hover {
-        background-color: #343a40; /* Cor de destaque ao passar o mouse */
+        background-color: #343a40;
     }
 
     .text-center {
         font-weight: 600;
         font-size: 1.5rem;
-        color: #fff; /* Texto branco para o título */
+        color: #fff;
     }
 
     .table {
@@ -69,10 +138,10 @@
         overflow: hidden;
     }
 
-    .table thead th,
-    .table tbody td {
-        color: #ffffff; /* Letras brancas */
-    }
+        .table thead th,
+        .table tbody td {
+            color: #ffffff;
+        }
 
     .btn-info,
     .btn-success {

@@ -1,70 +1,91 @@
 ﻿@model iHelpU.MODEL.Models.AnuncioServico
 
 @{
-    ViewData["Title"] = "Create";
+    ViewData["Title"] = "Solicitar Serviço";
 }
 
-<h1>Solicitar Serviço</h1>
-
-<h4>Anúncio de Serviço</h4>
-<hr />
-<div class="row">
-    <div class="col-md-4">
-        <form asp-action="Create">
-            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-            <input type="hidden" asp-for="Id" />
-
-            <div class="form-group mb-3">
-                <label asp-for="TipoServicoId" class="control-label">ID do Tipo de Serviço</label>
-                <input asp-for="TipoServicoId" class="form-control" />
-                <span asp-validation-for="TipoServicoId" class="text-danger"></span>
-            </div>
-
-            <div class="form-group mb-3">
-                <label asp-for="UsuarioId" class="control-label">ID do Usuário</label>
-                <input asp-for="UsuarioId" class="form-control" />
-                <span asp-validation-for="UsuarioId" class="text-danger"></span>
-            </div>
-
-            <div class="form-group mb-3">
-                <label asp-for="NomeServico" class="control-label">Nome do Serviço</label>
-                <input asp-for="NomeServico" class="form-control" />
-                <span asp-validation-for="NomeServico" class="text-danger"></span>
-            </div>
-
-            <div class="form-group mb-3">
-                <label asp-for="Descricao" class="control-label">Descrição</label>
-                <textarea asp-for="Descricao" class="form-control"></textarea>
-                <span asp-validation-for="Descricao" class="text-danger"></span>
-            </div>
-
-            <div class="form-group mb-3">
-                <label asp-for="CoordenadaX" class="control-label">Coordenada X</label>
-                <input asp-for="CoordenadaX" class="form-control" />
-                <span asp-validation-for="CoordenadaX" class="text-danger"></span>
-            </div>
-
-            <div class="form-group mb-3">
-                <label asp-for="CoordenadaY" class="control-label">Coordenada Y</label>
-                <input asp-for="CoordenadaY" class="form-control" />
-                <span asp-validation-for="CoordenadaY" class="text-danger"></span>
-            </div>
-
-            <div class="form-group mb-3">
-                <label asp-for="IdStatus" class="control-label">ID do Status</label>
-                <input asp-for="IdStatus" class="form-control" />
-                <span asp-validation-for="IdStatus" class="text-danger"></span>
-            </div>
-
-            <div class="form-group">
-                <input type="submit" value="Criar" class="btn btn-primary" />
-            </div>
-        </form>
+<div class="home-container">
+    <!-- Menu Lateral -->
+    <div class="sidebar">
+        <h3>Menu</h3>
+        <a href="@Url.Action("HomePage", "iHelpU")">Página Inicial</a>
+        <a href="@Url.Action("Create", "Anuncio")">Solicitar Serviço</a>
+        <a href="@Url.Action("ServicosCriados", "Anuncio")">Gerenciar Serviços</a>
+        <a href="@Url.Action("ServicosPrestados", "Anuncio")">Histórico de Serviços</a>
+        @if (User.Identity.IsAuthenticated)
+        {
+            <form method="post" asp-action="Logout" asp-controller="Auth" class="d-inline">
+                <button type="submit" class="logout-button">
+                    Sair
+                </button>
+            </form>
+        }
     </div>
-</div>
 
-<div>
-    <a asp-area="" asp-controller="iHelpU" asp-action="HomePage">Voltar para a Página Inicial</a>
+    <!-- Conteúdo Principal -->
+    <div class="content">
+        <h1>Solicitar Serviço</h1>
+        <h4>Anúncio de Serviço</h4>
+        <hr />
+        <div class="row">
+            <div class="col-md-6">
+                <form asp-action="Create">
+                    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                    <input type="hidden" asp-for="Id" />
+
+                    <div class="form-group mb-3">
+                        <label asp-for="TipoServicoId" class="control-label">ID do Tipo de Serviço</label>
+                        <input asp-for="TipoServicoId" class="form-control" />
+                        <span asp-validation-for="TipoServicoId" class="text-danger"></span>
+                    </div>
+
+                    <div class="form-group mb-3">
+                        <label asp-for="UsuarioId" class="control-label">ID do Usuário</label>
+                        <input asp-for="UsuarioId" class="form-control" />
+                        <span asp-validation-for="UsuarioId" class="text-danger"></span>
+                    </div>
+
+                    <div class="form-group mb-3">
+                        <label asp-for="NomeServico" class="control-label">Nome do Serviço</label>
+                        <input asp-for="NomeServico" class="form-control" />
+                        <span asp-validation-for="NomeServico" class="text-danger"></span>
+                    </div>
+
+                    <div class="form-group mb-3">
+                        <label asp-for="Descricao" class="control-label">Descrição</label>
+                        <textarea asp-for="Descricao" class="form-control"></textarea>
+                        <span asp-validation-for="Descricao" class="text-danger"></span>
+                    </div>
+
+                    <div class="form-group mb-3">
+                        <label asp-for="CoordenadaX" class="control-label">Coordenada X</label>
+                        <input asp-for="CoordenadaX" class="form-control" />
+                        <span asp-validation-for="CoordenadaX" class="text-danger"></span>
+                    </div>
+
+                    <div class="form-group mb-3">
+                        <label asp-for="CoordenadaY" class="control-label">Coordenada Y</label>
+                        <input asp-for="CoordenadaY" class="form-control" />
+                        <span asp-validation-for="CoordenadaY" class="text-danger"></span>
+                    </div>
+
+                    <div class="form-group mb-3">
+                        <label asp-for="IdStatus" class="control-label">ID do Status</label>
+                        <input asp-for="IdStatus" class="form-control" />
+                        <span asp-validation-for="IdStatus" class="text-danger"></span>
+                    </div>
+
+                    <div class="form-group">
+                        <input type="submit" value="Criar" class="btn btn-primary" />
+                    </div>
+                </form>
+            </div>
+        </div>
+
+        <div>
+            <a asp-area="" asp-controller="iHelpU" asp-action="HomePage">Voltar para a Página Inicial</a>
+        </div>
+    </div>
 </div>
 
 @section Scripts {
@@ -72,3 +93,67 @@
         await Html.RenderPartialAsync("_ValidationScriptsPartial");
     }
 }
+
+<style>
+    /* Container principal */
+    .home-container {
+        display: flex;
+        height: 100vh;
+        background-color: #333;
+        color: #fff;
+        margin: 0;
+    }
+
+    /* Menu lateral */
+    .sidebar {
+        width: 250px;
+        background-color: #222;
+        padding: 20px;
+        position: fixed;
+        height: 100%;
+        left: 0;
+    }
+
+    .sidebar a {
+        color: #fff;
+        text-decoration: none;
+        display: block;
+        padding: 10px;
+        margin-bottom: 10px;
+        border-radius: 5px;
+        background-color: #444;
+    }
+
+    .sidebar a:hover {
+        background-color: #007bff;
+    }
+
+    .logout-button {
+        padding: 10px 20px;
+        font-size: 16px;
+        border: none;
+        border-radius: 5px;
+        color: #fff;
+        background-color: #dc3545;
+        margin-top: 20px;
+    }
+
+    /* Conteúdo principal */
+    .content {
+        margin-left: 250px;
+        padding: 20px;
+        width: calc(100% - 250px);
+        color: #ddd;
+    }
+
+    .form-group label {
+        font-weight: 500;
+        color: #fff;
+    }
+
+    .btn-primary {
+        background-color: #007bff;
+        border-color: #007bff;
+        color: #fff;
+    }
+</style>

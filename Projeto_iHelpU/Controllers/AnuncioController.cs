@@ -34,7 +34,7 @@ namespace Projeto_iHelpU.Controllers
         // Exibe os serviços criados pelo usuário logado
         public async Task<IActionResult> ServicosCriados()
         {
-            var userId = User.FindFirst(ClaimTypes.NameIdentifier)?.Value ?? "4"; // "4" é um ID de teste.
+            var userId = User.FindFirst(ClaimTypes.NameIdentifier)?.Value ?? "1"; // "4" é um ID de teste.
             if (userId == null) return Unauthorized();
 
             var servicosCriados = await _context.AnuncioServicos
@@ -47,20 +47,20 @@ namespace Projeto_iHelpU.Controllers
         }
 
         // Exibe os serviços prestados pelo usuário logado
-        public async Task<IActionResult> MeusServicosPrestados()
+        public async Task<IActionResult> ServicosPrestados()
         {
-            var userId = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
+            var userId = User.FindFirst(ClaimTypes.NameIdentifier)?.Value ?? "1"; // "4" é um ID de teste.
             if (userId == null) return Unauthorized();
 
+            // Buscar os serviços contratados
             var servicosPrestados = await _context.ContratacaoServicos
-                .Include(c => c.AnuncioServico)
-                    .ThenInclude(a => a.TipoServico)
-                .Include(c => c.AnuncioServico.IdStatusNavigation)
-                .Where(c => c.AnuncioServico.UsuarioId == int.Parse(userId))
-                .Select(c => c.AnuncioServico)
+                .Include(c => c.AnuncioServico) // Carrega o serviço associado
+                    .ThenInclude(a => a.TipoServico) // Carrega o tipo de serviço
+                .Include(c => c.AnuncioServico.IdStatusNavigation) // Carrega o status do serviço
+                .Where(c => c.AnuncioServico.UsuarioId == int.Parse(userId)) // Filtra pelos serviços prestados pelo usuário logado
                 .ToListAsync();
 
-            return View(servicosPrestados);
+            return View(servicosPrestados); // Passa a lista de ContratacaoServico
         }
 
         public IActionResult Create()

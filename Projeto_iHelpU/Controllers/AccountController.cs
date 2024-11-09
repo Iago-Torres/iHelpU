@@ -4,6 +4,8 @@ using iHelpU.MODEL.Models;
 using iHelpU.MODEL.ViewModel;
 using System.Threading.Tasks;
 using iHelpU.MODEL.Services;
+using Microsoft.AspNetCore.Identity;
+using Microsoft.VisualStudio.Web.CodeGenerators.Mvc.Templates.General;
 
 namespace Projeto_iHelpU.Controllers
 {
@@ -42,12 +44,15 @@ namespace Projeto_iHelpU.Controllers
 
             return View(model);
         }
-
-        // Ação de logout
+        [HttpPost]
+        [ValidateAntiForgeryToken]
         public IActionResult Logout()
         {
-            HttpContext.Session.Clear();
-            return RedirectToAction("Login", "Account"); 
+                // Realize o logout aqui de acordo com sua lógica, como limpar a sessão
+                HttpContext.Session.Clear();
+                return RedirectToAction("Login", "Auth");
+        
         }
+
     }
 }
