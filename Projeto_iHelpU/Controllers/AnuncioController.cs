@@ -1,11 +1,10 @@
-﻿using iHelpU.MODEL.Models;
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
-using System.Threading.Tasks;
 using System.Linq;
 using System.Security.Claims;
-using iHelpU.MODEL.Services;
-using iHelpU.MODEL.Interface_Services;
+using System.Threading.Tasks;
+using iHelpU.MODEL.Models;
 
 namespace Projeto_iHelpU.Controllers
 {
@@ -13,13 +12,21 @@ namespace Projeto_iHelpU.Controllers
     {
         private readonly BancoTccContext _context;
 
-        // Construtor atualizado - garantindo que apenas a dependência necessária seja injetada
         public AnuncioController(BancoTccContext context)
         {
             _context = context;
         }
 
-        // Exibe todos os anúncios na página principal
+        private int? ObterUsuarioLogado()
+        {
+            var userIdString = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
+            if (int.TryParse(userIdString, out int userId))
+            {
+                return userId;
+            }
+            return null;
+        }
+
         public async Task<IActionResult> Index()
         {
             var anuncios = await _context.AnuncioServicos
@@ -31,43 +38,10 @@ namespace Projeto_iHelpU.Controllers
             return View(anuncios);
         }
 
-        // Exibe os serviços criados pelo usuário logado
-        public async Task<IActionResult> ServicosCriados()
-        {
-            var userId = User.FindFirst(ClaimTypes.NameIdentifier)?.Value ?? "1"; // "4" é um ID de teste.
-            if (userId == null) return Unauthorized();
-
-            var servicosCriados = await _context.AnuncioServicos
-                .Where(a => a.UsuarioId == int.Parse(userId))
-                .Include(a => a.TipoServico)
-                .Include(a => a.IdStatusNavigation)
-                .ToListAsync();
-
-            return View(servicosCriados);
-        }
-
-        // Exibe os serviços prestados pelo usuário logado
-        public async Task<IActionResult> ServicosPrestados()
-        {
-            var userId = User.FindFirst(ClaimTypes.NameIdentifier)?.Value ?? "1"; // "4" é um ID de teste.
-            if (userId == null) return Unauthorized();
-
-            // Buscar os serviços contratados
-            var servicosPrestados = await _context.ContratacaoServicos
-                .Include(c => c.AnuncioServico) // Carrega o serviço associado
-                    .ThenInclude(a => a.TipoServico) // Carrega o tipo de serviço
-                .Include(c => c.AnuncioServico.IdStatusNavigation) // Carrega o status do serviço
-                .Where(c => c.AnuncioServico.UsuarioId == int.Parse(userId)) // Filtra pelos serviços prestados pelo usuário logado
-                .ToListAsync();
-
-            return View(servicosPrestados); // Passa a lista de ContratacaoServico
-        }
-
         public IActionResult Create()
         {
             return View();
         }
-
         [HttpPost]
         public async Task<IActionResult> Create(AnuncioServico anuncio)
         {
@@ -84,12 +58,35 @@ namespace Projeto_iHelpU.Controllers
             return View(anuncio);
         }
 
-        public async Task<IActionResult> Edit(int id)
+        public async Task<IActionResult> ServicosCriados()
         {
-            var anuncio = await _context.AnuncioServicos.FindAsync(id);
-            if (anuncio == null) return NotFound();
+            var userId = ObterUsuarioLogado(); 
+            if (userId == null) return Unauthorized();
 
-            return View(anuncio);
+            var servicosCriados = await _context.AnuncioServicos
+                .Where(a => a.UsuarioId == userId)
+                .Include(a => a.TipoServico)
+                .Include(a => a.IdStatusNavigation)
+                .ToListAsync();
+
+            return View(servicosCriados);
+        }
+
+        // Exibe os serviços prestados pelo usuário logado
+        public async Task<IActionResult> ServicosPrestados()
+        {
+            var userId = ObterUsuarioLogado(); // Usa o método para obter o ID do usuário logado
+            if (userId == null) return Unauthorized();
+
+            // Buscar os serviços contratados
+            var servicosPrestados = await _context.ContratacaoServicos
+                .Include(c => c.AnuncioServico)
+                    .ThenInclude(a => a.TipoServico)
+                .Include(c => c.AnuncioServico.IdStatusNavigation)
+                .Where(c => c.AnuncioServico.UsuarioId == userId)
+                .ToListAsync();
+
+            return View(servicosPrestados);
         }
 
         [HttpPost]
