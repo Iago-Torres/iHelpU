@@ -1,0 +1,36 @@
+﻿@* @page
+@model YourNamespace.Models.YourModel // Altere para o seu model, se precisar
+ *@
+@{
+    ViewData["Title"] = "Teste do Mapa Google";
+}
+
+<h2>Mapa Google</h2>
+
+<div id="map" style="height: 500px; width: 100%; border: solid 1px #ddd;"></div>
+
+@section Scripts {
+    <!-- Insira sua chave da API do Google Maps no lugar de SUA_API_KEY -->
+    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBMW3nm3S46jerl6RPcygOI_CnnY_1Aj5w&callback=initMap&v=weekly" defer></script>
+
+    <script>
+        function initMap() {
+            // Coordenadas de exemplo para o centro do mapa
+            const centro = { lat: -15.682543, lng: -47.978874 };
+
+            // Inicializando o mapa e definindo suas opções
+            const map = new google.maps.Map(document.getElementById("map"), {
+                zoom: 12,
+                center: centro,
+                mapTypeId: google.maps.MapTypeId.ROADMAP
+            });
+
+            // Marcador de exemplo no centro do mapa
+            const marker = new google.maps.Marker({
+                position: centro,
+                map: map,
+                title: "Exemplo de localização"
+            });
+        }
+    </script>
+}

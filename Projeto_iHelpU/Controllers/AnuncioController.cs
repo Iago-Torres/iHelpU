@@ -41,6 +41,9 @@ namespace Projeto_iHelpU.Controllers
         public IActionResult Create()
         {
             return View();
+        }   public IActionResult TesteMapa()
+        {
+            return View();
         }
         [HttpPost]
         public async Task<IActionResult> Create(AnuncioServico anuncio)
