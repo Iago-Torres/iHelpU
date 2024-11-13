@@ -65,6 +65,14 @@
         .btn-secondary:hover {
             background-color: #5a6268;
         }
+
+    /* Estilos para o mapa */
+    #map {
+        height: 400px;
+        width: 100%;
+        margin-top: 20px;
+        border-radius: 8px;
+    }
 </style>
 
 <div class="details-container">
@@ -78,7 +86,7 @@
         <dd class="col-sm-8">@Model.TipoServico?.Descricao</dd>
 
         <dt class="col-sm-4">Usuário</dt>
-        <dd class="col-sm-8">@Model.Usuario?.PrimeiroNome @Model.Usuario?.SegundoNome</dd> 
+        <dd class="col-sm-8">@Model.Usuario?.PrimeiroNome @Model.Usuario?.SegundoNome</dd>
 
         <dt class="col-sm-4">Nome do Serviço</dt>
         <dd class="col-sm-8">@Model.NomeServico</dd>
@@ -93,10 +101,37 @@
         <dd class="col-sm-8">@Model.CoordenadaY</dd>
 
         <dt class="col-sm-4">Status</dt>
-        <dd class="col-sm-8">@Model.IdStatusNavigation?.Descricao</dd> 
+        <dd class="col-sm-8">@Model.IdStatusNavigation?.Descricao</dd>
     </dl>
+
+    <!-- Contêiner do mapa -->
+    <div id="map"></div>
 
     <div class="button-container">
         <a href="@Url.Action("HomePage", "iHelpU")" class="btn-secondary">Voltar</a>
     </div>
 </div>
+
+<script>
+    function initMap() {
+        let coordenadaX = '@Model.CoordenadaX'.replace(',', '.');
+        let coordenadaY = '@Model.CoordenadaY'.replace(',', '.');
+
+        const serviceLocation = {
+            lat: parseFloat(coordenadaX),
+            lng: parseFloat(coordenadaY)
+        };
+
+        const map = new google.maps.Map(document.getElementById("map"), {
+            zoom: 15,
+            center: serviceLocation,
+        });
+
+        new google.maps.Marker({
+            position: serviceLocation,
+            map: map,
+            title: "@Model.NomeServico"
+        });
+    }
+</script>
+<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBMW3nm3S46jerl6RPcygOI_CnnY_1Aj5w&callback=initMap" async defer></script>

@@ -148,7 +148,6 @@
             @Model.MensagemBemVindo
         </div>
 
-        <!-- Mapa do Google Maps com Geolocalização -->
         <div id="map"></div>
 
         <div class="announcements">
@@ -178,7 +177,7 @@
 
         function initMap() {
             map = new google.maps.Map(document.getElementById("map"), {
-                center: { lat: -22.482714819011402, lng: -44.472930834656815 }, // Centro inicial
+                center: { lat: -22.482714819011402, lng: -44.472930834656815 },
                 zoom: 8,
             });
             infoWindow = new google.maps.InfoWindow();

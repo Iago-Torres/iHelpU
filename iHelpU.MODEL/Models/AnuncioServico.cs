@@ -2,6 +2,7 @@
 #nullable disable
 using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace iHelpU.MODEL.Models;
 
@@ -17,8 +18,9 @@ public partial class AnuncioServico
 
     public string Descricao { get; set; }
 
+    //[Column(TypeName = "decimal(10, 8)")]
     public decimal? CoordenadaX { get; set; }
-
+    //[Column(TypeName = "decimal(10, 8)")]
     public decimal? CoordenadaY { get; set; }
 
     public int? IdStatus { get; set; }

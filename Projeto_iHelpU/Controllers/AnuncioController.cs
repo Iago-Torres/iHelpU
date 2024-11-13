@@ -5,6 +5,7 @@ using System.Linq;
 using System.Security.Claims;
 using System.Threading.Tasks;
 using iHelpU.MODEL.Models;
+using iHelpU.MODEL.ViewModel;
 
 namespace Projeto_iHelpU.Controllers
 {
@@ -117,6 +118,13 @@ namespace Projeto_iHelpU.Controllers
                 .FirstOrDefaultAsync(a => a.Id == id);
 
             if (anuncio == null) return NotFound();
+
+            var viewModel = new AnuncioDetalhesVM
+            {
+                Id = anuncio.Id,
+                coordenada_x = (decimal)anuncio.CoordenadaX,
+                coordenada_y = (decimal)anuncio.CoordenadaY,
+            };
 
             return View(anuncio);
         }
