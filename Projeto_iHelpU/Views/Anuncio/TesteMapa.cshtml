@@ -1,36 +1,99 @@
-﻿@* @page
-@model YourNamespace.Models.YourModel // Altere para o seu model, se precisar
- *@
-@{
-    ViewData["Title"] = "Teste do Mapa Google";
+﻿@{
+    ViewData["Title"] = "TesteMapa";
 }
 
-<h2>Mapa Google</h2>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Geolocation</title>
+    <style>
+        /* Configuração da altura do mapa e ajustes de estilo */
+        #map {
+            height: 400px; /* Altura personalizada para caber no layout */
+            width: 100%;
+        }
 
-<div id="map" style="height: 500px; width: 100%; border: solid 1px #ddd;"></div>
+        html, body {
+            height: 100%;
+            margin: 0;
+            padding: 0;
+        }
 
-@section Scripts {
-    <!-- Insira sua chave da API do Google Maps no lugar de SUA_API_KEY -->
-    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBMW3nm3S46jerl6RPcygOI_CnnY_1Aj5w&callback=initMap&v=weekly" defer></script>
+        .custom-map-control-button {
+            background-color: #fff;
+            border: 0;
+            border-radius: 2px;
+            box-shadow: 0 1px 4px -1px rgba(0, 0, 0, 0.3);
+            margin: 10px;
+            padding: 0 0.5em;
+            font: 400 18px Roboto, Arial, sans-serif;
+            overflow: hidden;
+            height: 40px;
+            cursor: pointer;
+        }
+
+            .custom-map-control-button:hover {
+                background: rgb(235, 235, 235);
+            }
+    </style>
+</head>
+<body>
+    <h2>Mapa com Geolocalização</h2>
+    <div id="map"></div> <!-- Div para exibir o mapa -->
 
     <script>
+        let map, infoWindow;
+
         function initMap() {
-            // Coordenadas de exemplo para o centro do mapa
-            const centro = { lat: -15.682543, lng: -47.978874 };
-
-            // Inicializando o mapa e definindo suas opções
-            const map = new google.maps.Map(document.getElementById("map"), {
-                zoom: 12,
-                center: centro,
-                mapTypeId: google.maps.MapTypeId.ROADMAP
+            map = new google.maps.Map(document.getElementById("map"), {
+                center: { lat: -34.397, lng: 150.644 }, // Coordenadas iniciais
+                zoom: 6,
             });
+            infoWindow = new google.maps.InfoWindow();
 
-            // Marcador de exemplo no centro do mapa
-            const marker = new google.maps.Marker({
-                position: centro,
-                map: map,
-                title: "Exemplo de localização"
+            const locationButton = document.createElement("button");
+            locationButton.textContent = "Pan to Current Location";
+            locationButton.classList.add("custom-map-control-button");
+            map.controls[google.maps.ControlPosition.TOP_CENTER].push(locationButton);
+            locationButton.addEventListener("click", () => {
+                if (navigator.geolocation) {
+                    navigator.geolocation.getCurrentPosition(
+                        (position) => {
+                            const pos = {
+                                lat: position.coords.latitude,
+                                lng: position.coords.longitude,
+                            };
+
+                            infoWindow.setPosition(pos);
+                            infoWindow.setContent("Localização encontrada.");
+                            infoWindow.open(map);
+                            map.setCenter(pos);
+                        },
+                        () => {
+                            handleLocationError(true, infoWindow, map.getCenter());
+                        }
+                    );
+                } else {
+                    handleLocationError(false, infoWindow, map.getCenter());
+                }
             });
         }
+
+        function handleLocationError(browserHasGeolocation, infoWindow, pos) {
+            infoWindow.setPosition(pos);
+            infoWindow.setContent(
+                browserHasGeolocation
+                    ? "Erro: O serviço de Geolocalização falhou."
+                    : "Erro: Seu navegador não suporta geolocalização."
+            );
+            infoWindow.open(map);
+        }
+
+        window.initMap = initMap;
     </script>
-}
+    <!-- Script de API do Google Maps -->
+    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBMW3nm3S46jerl6RPcygOI_CnnY_1Aj5w&callback=initMap"
+            async defer></script>
+</body>
+</html>

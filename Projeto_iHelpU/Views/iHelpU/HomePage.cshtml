@@ -20,10 +20,9 @@
         height: 100vh;
         background-color: #333;
         color: #fff;
-        margin: 0; 
+        margin: 0;
     }
 
-    /* Menu lateral */
     .sidebar {
         width: 250px;
         background-color: #222;
@@ -47,13 +46,11 @@
                 background-color: #007bff;
             }
 
-    
     .content {
-        margin-left: 0; 
+        margin-left: 250px;
         padding: 20px;
         width: 100%;
         color: #ddd;
-        margin-left: 250px; 
     }
 
     .welcome-message {
@@ -61,12 +58,29 @@
         margin-top: 20px;
     }
 
-    .map-image {
+    #map {
         width: 100%;
         max-width: 600px;
-        height: auto;
+        height: 400px;
         margin: 20px auto;
     }
+
+    .custom-map-control-button {
+        background-color: #fff;
+        border: 0;
+        border-radius: 2px;
+        box-shadow: 0 1px 4px -1px rgba(0, 0, 0, 0.3);
+        margin: 10px;
+        padding: 0 0.5em;
+        font: 400 18px Roboto, Arial, sans-serif;
+        overflow: hidden;
+        height: 40px;
+        cursor: pointer;
+    }
+
+        .custom-map-control-button:hover {
+            background: rgb(235, 235, 235);
+        }
 
     .announcements {
         margin-top: 30px;
@@ -82,11 +96,6 @@
         justify-content: space-between;
         align-items: center;
         text-align: left;
-    }
-
-    .announcement-content {
-        text-align: left;
-        flex: 1;
     }
 
     .request-button, .details-button, .logout-button {
@@ -107,7 +116,7 @@
     }
 
     .logout-button {
-        background-color: #dc3545; /* Cor vermelha para logout */
+        background-color: #dc3545;
         margin-top: 20px;
     }
 </style>
@@ -121,7 +130,6 @@
         <a href="@Url.Action("ServicosCriados", "Anuncio")">Gerenciar Serviços</a>
         <a href="@Url.Action("ServicosPrestados", "Anuncio")">Histórico de Serviços</a>
         <a href="@Url.Action("TesteMapa", "Anuncio")">Mapa</a>
-
 
         @if (User.Identity.IsAuthenticated)
 
@@ -140,7 +148,8 @@
             @Model.MensagemBemVindo
         </div>
 
-        <img src="~/images/map-placeholder.jpg" alt="Mapa" class="map-image" />
+        <!-- Mapa do Google Maps com Geolocalização -->
+        <div id="map"></div>
 
         <div class="announcements">
             <h2>Anúncios de Serviços</h2>
@@ -159,3 +168,58 @@
         </div>
     </div>
 </div>
+
+@section Scripts {
+    <!-- Script do Google Maps API -->
+    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBMW3nm3S46jerl6RPcygOI_CnnY_1Aj5w&callback=initMap" async defer></script>
+
+    <script type="text/javascript">
+        let map, infoWindow;
+
+        function initMap() {
+            map = new google.maps.Map(document.getElementById("map"), {
+                center: { lat: -22.482714819011402, lng: -44.472930834656815 }, // Centro inicial
+                zoom: 8,
+            });
+            infoWindow = new google.maps.InfoWindow();
+
+            const locationButton = document.createElement("button");
+            locationButton.textContent = "Centralizar na Localização Atual";
+            locationButton.classList.add("custom-map-control-button");
+            map.controls[google.maps.ControlPosition.TOP_CENTER].push(locationButton);
+
+            locationButton.addEventListener("click", () => {
+                if (navigator.geolocation) {
+                    navigator.geolocation.getCurrentPosition(
+                        (position) => {
+                            const pos = {
+                                lat: position.coords.latitude,
+                                lng: position.coords.longitude,
+                            };
+
+                            infoWindow.setPosition(pos);
+                            infoWindow.setContent("=)");
+                            infoWindow.open(map);
+                            map.setCenter(pos);
+                        },
+                        () => {
+                            handleLocationError(true, infoWindow, map.getCenter());
+                        }
+                    );
+                } else {
+                    handleLocationError(false, infoWindow, map.getCenter());
+                }
+            });
+        }
+
+        function handleLocationError(browserHasGeolocation, infoWindow, pos) {
+            infoWindow.setPosition(pos);
+            infoWindow.setContent(
+                browserHasGeolocation
+                    ? "Erro: O serviço de Geolocalização falhou."
+                    : "Erro: Seu navegador não suporta geolocalização."
+            );
+            infoWindow.open(map);
+        }
+    </script>
+}
