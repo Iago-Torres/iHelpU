@@ -15,7 +15,7 @@ namespace iHelpU.MODEL.ViewModel
         public string Descricao { get; set; }
         public string TipoServico { get; set; }
         public string Status { get; set; }
-        public decimal coordenada_x { get; set; }    // Coordenada X
-        public decimal coordenada_y { get; set; }   // Coordenada Y
+        public string coordenada_x { get; set; }    // Coordenada X
+        public string coordenada_y { get; set; }   // Coordenada Y
     }
 }

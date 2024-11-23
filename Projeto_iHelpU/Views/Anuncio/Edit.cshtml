@@ -1,0 +1,165 @@
+﻿@model iHelpU.MODEL.ViewModel.AnuncioEditVM
+
+@{
+    ViewData["Title"] = "Edit Anúncio";
+}
+
+<div class="container-fluid">
+    <!-- Menu Lateral -->
+    <div class="sidebar">
+        <h3>Menu</h3>
+        <a href="@Url.Action("HomePage", "iHelpU")">Página Inicial</a>
+        <a href="@Url.Action("Create", "Anuncio")">Solicitar Serviço</a>
+        <a href="@Url.Action("ServicosCriados", "Anuncio")">Gerenciar Serviços</a>
+        <a href="@Url.Action("ServicosPrestados", "Anuncio")">Histórico de Serviços</a>
+        @if (User.Identity.IsAuthenticated)
+        {
+            <form method="post" asp-action="Logout" asp-controller="Auth" class="d-inline">
+                <button type="submit" class="logout-button">
+                    Sair
+                </button>
+            </form>
+        }
+    </div>
+
+        <!-- Conteúdo Principal -->
+        <div class="col-md-10">
+            <h1>Edit Anúncio</h1>
+            <hr />
+            <div class="row">
+                <div class="col-md-6">
+                    <form asp-action="Edit">
+                        <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+
+                        <!-- Campo Nome do Serviço -->
+                        <div class="form-group">
+                            <label asp-for="AnuncioServico.NomeServico" class="control-label">Nome do Serviço</label>
+                            <input asp-for="AnuncioServico.NomeServico" class="form-control" />
+                            <span asp-validation-for="AnuncioServico.NomeServico" class="text-danger"></span>
+                        </div>
+
+                        <!-- Campo Descrição -->
+                        <div class="form-group">
+                            <label asp-for="AnuncioServico.Descricao" class="control-label">Descrição</label>
+                            <textarea asp-for="AnuncioServico.Descricao" class="form-control"></textarea>
+                            <span asp-validation-for="AnuncioServico.Descricao" class="text-danger"></span>
+                        </div>
+
+                        <!-- Dropdown Tipo de Serviço -->
+                        <div class="form-group">
+                            <label asp-for="AnuncioServico.TipoServicoId" class="control-label">Tipo de Serviço</label>
+                        <select asp-for="AnuncioServico.TipoServicoId" class="form-control" asp-items="ViewBag.TiposServico"></select>
+                            <span asp-validation-for="AnuncioServico.TipoServicoId" class="text-danger"></span>
+                        </div>
+
+                    <div class="form-group">
+                        <label class="control-label">Usuário</label>
+                        <input type="text" value="@Model.AnuncioServico.UsuarioId" class="form-control" readonly />
+                    </div>
+
+
+                        <!-- Dropdown Status -->
+                        <div class="form-group">
+                            <label asp-for="AnuncioServico.IdStatus" class="control-label">Status</label>
+                        <select asp-for="AnuncioServico.IdStatus" class="form-control" asp-items="ViewBag.Status"></select>
+                            <span asp-validation-for="AnuncioServico.IdStatus" class="text-danger"></span>
+                        </div>
+
+                        <!-- Campo Coordenada X -->
+                        <div class="form-group">
+                            <label asp-for="AnuncioServico.CoordenadaX" class="control-label">Coordenada X</label>
+                            <input asp-for="AnuncioServico.CoordenadaX" class="form-control" />
+                            <span asp-validation-for="AnuncioServico.CoordenadaX" class="text-danger"></span>
+                        </div>
+
+                        <!-- Campo Coordenada Y -->
+                        <div class="form-group">
+                            <label asp-for="AnuncioServico.CoordenadaY" class="control-label">Coordenada Y</label>
+                            <input asp-for="AnuncioServico.CoordenadaY" class="form-control" />
+                            <span asp-validation-for="AnuncioServico.CoordenadaY" class="text-danger"></span>
+                        </div>
+
+                        <!-- Botão Salvar -->
+                        <div class="form-group">
+                            <input type="submit" value="Salvar" class="btn btn-primary" />
+                        </div>
+                    </form>
+
+                    <div>
+                        <a asp-action="Index" class="btn btn-secondary">Voltar para Lista</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+    <style>
+        /* Container principal */
+        .home-container {
+            display: flex;
+            height: 100vh;
+            background-color: #333;
+            color: #fff;
+            margin: 0;
+        }
+
+        /* Menu lateral */
+        .sidebar {
+            width: 250px;
+            background-color: #222;
+            padding: 20px;
+            position: fixed;
+            height: 100%;
+            left: 0;
+        }
+
+            .sidebar a {
+                color: #fff;
+                text-decoration: none;
+                display: block;
+                padding: 10px;
+                margin-bottom: 10px;
+                border-radius: 5px;
+                background-color: #444;
+            }
+
+                .sidebar a:hover {
+                    background-color: #007bff;
+                }
+
+        .logout-button {
+            padding: 10px 20px;
+            font-size: 16px;
+            border: none;
+            border-radius: 5px;
+            color: #fff;
+            background-color: #dc3545;
+            margin-top: 20px;
+        }
+
+        /* Conteúdo principal */
+        .content {
+            margin-left: 250px;
+            padding: 20px;
+            width: calc(100% - 250px);
+            color: #ddd;
+        }
+
+        .form-group label {
+            font-weight: 500;
+            color: #fff;
+        }
+
+        .btn-primary {
+            background-color: #007bff;
+            border-color: #007bff;
+            color: #fff;
+        }
+    </style>
+
+}

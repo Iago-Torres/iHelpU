@@ -13,5 +13,10 @@ namespace iHelpU.MODEL.Repositories
         public RepositoryTipoServico(BancoTccContext context, bool saveChanges = true) : base(context, saveChanges)
         {
         }
+
+        public IEnumerable<TipoServico> ObterTodosTiposServico()
+        {
+            return _context.TipoServicos.ToList(); 
+        }
     }
 }

@@ -19,9 +19,9 @@ public partial class AnuncioServico
     public string Descricao { get; set; }
 
     //[Column(TypeName = "decimal(10, 8)")]
-    public decimal? CoordenadaX { get; set; }
+    public string CoordenadaX { get; set; }
     //[Column(TypeName = "decimal(10, 8)")]
-    public decimal? CoordenadaY { get; set; }
+    public string CoordenadaY { get; set; }
 
     public int? IdStatus { get; set; }
 

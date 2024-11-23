@@ -1,4 +1,5 @@
 ﻿using iHelpU.MODEL.Interface_Services;
+using iHelpU.MODEL.Interfaces;
 using iHelpU.MODEL.Models;
 using iHelpU.MODEL.Repositories;
 using Microsoft.EntityFrameworkCore;
@@ -18,7 +19,7 @@ namespace iHelpU.MODEL.Services
         public AnuncioServico_Service(BancoTccContext context)
         {
             _context = context;
-
+            oRepositoryAnuncioServico = new RepositoryAnuncioServico(context);
         }
 
         public async Task<IEnumerable<AnuncioServico>> GetAllAsync()
@@ -54,5 +55,4 @@ namespace iHelpU.MODEL.Services
             }
         }
     }
-
 }

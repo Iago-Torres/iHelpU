@@ -11,8 +11,10 @@ namespace iHelpU.MODEL.ViewModel
     public class AnuncioServicoVM
     {
         public AnuncioServico AnuncioServico { get; set; }
-        public List<SelectListItem> TipoServicoList { get; set; }
+        public IEnumerable<SelectListItem> TipoServicoList { get; set; }
         public List<SelectListItem> UsuarioList { get; set; }
-        public List<SelectListItem> StatusList { get; set; }
+        public IEnumerable<SelectListItem> StatusList { get; set; }
+
+
     }
 }

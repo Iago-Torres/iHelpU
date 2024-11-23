@@ -41,10 +41,10 @@ public partial class BancoTccContext : DbContext
 
             entity.Property(e => e.Id).HasColumnName("id");
             entity.Property(e => e.CoordenadaX)
-                .HasColumnType("decimal(9, 6)")
+                .HasColumnType("varchar(60)")
                 .HasColumnName("coordenada_x");
             entity.Property(e => e.CoordenadaY)
-                .HasColumnType("decimal(9, 6)")
+                .HasColumnType("varchar(60)")
                 .HasColumnName("coordenada_y");
             entity.Property(e => e.Descricao)
                 .HasMaxLength(500)
