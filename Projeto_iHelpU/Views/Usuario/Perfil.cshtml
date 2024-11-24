@@ -4,37 +4,16 @@
     ViewData["Title"] = "Perfil do Usuário";
 }
 
-<h1>Perfil do Usuário</h1>
-
-<!-- ComboBox para escolher o usuário -->
-<form asp-action="Perfil" method="get">
-    <div class="form-group">
-        <label for="usuarioId">Escolha o usuário:</label>
-        <select id="usuarioId" name="usuarioId" class="form-control">
-            <option value="">Selecione um usuário</option>
-            @foreach (var usuario in ViewBag.Usuarios)
-            {
-                if (Model != null && Model.Id == usuario.Id)
-                {
-                    <option value="@usuario.Id" selected="selected">@usuario.PrimeiroNome @usuario.SegundoNome</option>
-                }
-                else
-                {
-                    <option value="@usuario.Id">@usuario.PrimeiroNome @usuario.SegundoNome</option>
-                }
-            }
-        </select>
-
-
-    </div>
-    <button type="submit" class="btn btn-primary">Exibir Perfil</button>
-</form>
-
-<hr />
+<h2>Editar Perfil</h2>
 
 @if (Model != null)
 {
-    <form asp-action="UpdateProfile" method="post">
+    
+    <form asp-action="Perfil" method="post">
+
+        <input type="hidden" asp-for="Id" />
+        <input type="hidden" asp-for="Senha" />
+
         <div class="form-group">
             <label asp-for="PrimeiroNome">Nome</label>
             <input asp-for="PrimeiroNome" class="form-control" />

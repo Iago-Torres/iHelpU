@@ -2,13 +2,10 @@
 
 @{
     if (User.Identity.IsAuthenticated)
-
     {
         <h2>Bem-vindo, @User.Identity.Name!</h2>
     }
-
     else
-
     {
         <h2>Usuário não autenticado</h2>
     }
@@ -58,30 +55,6 @@
         margin-top: 20px;
     }
 
-    #map {
-        width: 100%;
-        max-width: 600px;
-        height: 400px;
-        margin: 20px auto;
-    }
-
-    .custom-map-control-button {
-        background-color: #fff;
-        border: 0;
-        border-radius: 2px;
-        box-shadow: 0 1px 4px -1px rgba(0, 0, 0, 0.3);
-        margin: 10px;
-        padding: 0 0.5em;
-        font: 400 18px Roboto, Arial, sans-serif;
-        overflow: hidden;
-        height: 40px;
-        cursor: pointer;
-    }
-
-        .custom-map-control-button:hover {
-            background: rgb(235, 235, 235);
-        }
-
     .announcements {
         margin-top: 30px;
     }
@@ -130,9 +103,10 @@
         <a href="@Url.Action("ServicosCriados", "Anuncio")">Gerenciar Serviços</a>
         <a href="@Url.Action("ServicosPrestados", "Anuncio")">Histórico de Serviços</a>
         <a href="@Url.Action("TesteMapa", "Anuncio")">Mapa</a>
+        <a href="@Url.Action("Perfil", "Usuario")">Edite seu Perfil</a>
+        
 
         @if (User.Identity.IsAuthenticated)
-
         {
             <form method="post" asp-action="Logout" asp-controller="Auth" class="d-inline">
                 <button type="submit" class="logout-button">
@@ -148,8 +122,24 @@
             @Model.MensagemBemVindo
         </div>
 
-        <div id="map"></div>
+        <!-- Filtro por Tipo de Serviço -->
+        <form method="get">
+    <div class="input-group mb-3">
+        <select name="tipoServicoId" class="form-control">
+            <option value="">-- Selecione o Tipo de Serviço --</option>
+            @foreach (var tipo in Model.TiposServico)
+            {
+                var isSelected = Model.TipoServicoSelecionado == tipo.Id ? "selected" : "";
+                <option value="@tipo.Id" isSelected>@tipo.Descricao</option>
+            }
+        </select>
+        <button type="submit" class="btn btn-primary">Filtrar</button>
+    </div>
+</form>
 
+
+
+        <!-- Lista de Anúncios -->
         <div class="announcements">
             <h2>Anúncios de Serviços</h2>
             @foreach (var anuncio in Model.Anuncios)
@@ -158,6 +148,7 @@
                     <div class="announcement-content">
                         <h3>@anuncio.NomeServico</h3>
                         <p>@anuncio.Descricao</p>
+                        <p><strong>Tipo:</strong> @anuncio.TipoServico?.Descricao</p>
                     </div>
                     <button class="details-button" onclick="window.location.href='@Url.Action("Details", "Anuncio", new { id = anuncio.Id })'">
                         Ver Detalhes
@@ -168,57 +159,4 @@
     </div>
 </div>
 
-@section Scripts {
-    <!-- Script do Google Maps API -->
-    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBMW3nm3S46jerl6RPcygOI_CnnY_1Aj5w&callback=initMap" async defer></script>
-
-    <script type="text/javascript">
-        let map, infoWindow;
-
-        function initMap() {
-            map = new google.maps.Map(document.getElementById("map"), {
-                center: { lat: -22.482714819011402, lng: -44.472930834656815 },
-                zoom: 8,
-            });
-            infoWindow = new google.maps.InfoWindow();
-
-            const locationButton = document.createElement("button");
-            locationButton.textContent = "Centralizar na Localização Atual";
-            locationButton.classList.add("custom-map-control-button");
-            map.controls[google.maps.ControlPosition.TOP_CENTER].push(locationButton);
-
-            locationButton.addEventListener("click", () => {
-                if (navigator.geolocation) {
-                    navigator.geolocation.getCurrentPosition(
-                        (position) => {
-                            const pos = {
-                                lat: position.coords.latitude,
-                                lng: position.coords.longitude,
-                            };
-
-                            infoWindow.setPosition(pos);
-                            infoWindow.setContent("=)");
-                            infoWindow.open(map);
-                            map.setCenter(pos);
-                        },
-                        () => {
-                            handleLocationError(true, infoWindow, map.getCenter());
-                        }
-                    );
-                } else {
-                    handleLocationError(false, infoWindow, map.getCenter());
-                }
-            });
-        }
-
-        function handleLocationError(browserHasGeolocation, infoWindow, pos) {
-            infoWindow.setPosition(pos);
-            infoWindow.setContent(
-                browserHasGeolocation
-                    ? "Erro: O serviço de Geolocalização falhou."
-                    : "Erro: Seu navegador não suporta geolocalização."
-            );
-            infoWindow.open(map);
-        }
-    </script>
 }

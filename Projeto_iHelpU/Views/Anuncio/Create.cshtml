@@ -21,6 +21,7 @@
             </form>
         }
     </div>
+            
 
     <!-- Conteúdo Principal -->
     <div class="content">
@@ -32,6 +33,9 @@
                 <form asp-action="Create">
                     <div asp-validation-summary="ModelOnly" class="text-danger"></div>
                     <input type="hidden" asp-for="Id" />
+                    <div>
+            <a asp-area="" asp-controller="TipoServico" asp-action="Create">Não achou seu tipo de serviço? Adicione já!</a>
+            </div>
 
                     <!-- Campo de seleção para Tipo de Serviço -->
                     <div class="form-group mb-3">
@@ -47,6 +51,7 @@
                         <span asp-validation-for="NomeServico" class="text-danger"></span>
                     </div>
 
+                    <input asp-for="UsuarioId" type="hidden" />
                     <div class="form-group mb-3">
                         <label asp-for="UsuarioId" class="control-label">Usuário</label>
                         <textarea asp-for="UsuarioId" class="form-control"></textarea>

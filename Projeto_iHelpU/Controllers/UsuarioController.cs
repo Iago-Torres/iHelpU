@@ -5,6 +5,8 @@ using NuGet.Protocol.Core.Types;
 using iHelpU.MODEL.Repositories;
 using iHelpU.MODEL.Services;
 using Microsoft.AspNetCore.Mvc.Rendering;
+using System.Security.Claims;
+using iHelpU.MODEL.Interface_Services;
 
 namespace Projeto_iHelpU.Controllers
 {
@@ -40,7 +42,7 @@ namespace Projeto_iHelpU.Controllers
             {
                 await _serviceUsuario.oRepositoryUsuario.IncluirAsync(usuario);
                 ViewData["Mensagem"] = "Dados salvos com sucesso.";
-                return RedirectToAction(nameof(Index));
+                return RedirectToAction("Login", "Auth");
             }
             else
             {
@@ -118,45 +120,41 @@ namespace Projeto_iHelpU.Controllers
             return View();
         }
 
-        public async Task<IActionResult> Perfil(int usuarioId = 0)
+
+        private int ObterUsuarioLogado()
         {
-            var usuarios = await _serviceUsuario.oRepositoryUsuario.SelecionarTodosAsync();
-            ViewBag.Usuarios = usuarios;
-
-            if (usuarioId == 0)
+            var userIdString = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
+            if (int.TryParse(userIdString, out int userId))
             {
-                
-                return View();
+                return userId;
             }
+            return userId;
+        }
 
-            var usuario = await _serviceUsuario.oRepositoryUsuario.ObterUsuarioPorId(usuarioId);
-            if (usuario == null)
-            {
-                return View("Erro"); 
-            }
-
+        [HttpGet]
+        public async Task<IActionResult> Perfil()
+        {
+            int usuarioLogadoId = ObterUsuarioLogado();
+            var usuario = await _serviceUsuario.oRepositoryUsuario.ObterUsuarioPorId(usuarioLogadoId);
             return View(usuario);
         }
 
-     
+
         [HttpPost]
-        public async Task<IActionResult> UpdateProfile(Usuario usuario)
+        public async Task<IActionResult> Perfil(Usuario usuario)
         {
+            ModelState.Remove("Id");
+            ModelState.Remove("Senha");
+
             if (ModelState.IsValid)
             {
                 await _serviceUsuario.oRepositoryUsuario.AlterarAsync(usuario);
-                return RedirectToAction("Perfil", new { usuarioId = usuario.Id });
+                TempData["Mensagem"] = "Dados alterados com sucesso!";
+                return RedirectToAction("HomePage", "iHelpU");
             }
+            ModelState.AddModelError("", "Erro ao atualizar os dados.");
+            return View(usuario); 
+        }
 
-           
-            var usuarios = await _serviceUsuario.oRepositoryUsuario.SelecionarTodosAsync();
-            ViewBag.Usuarios = usuarios;
-            return View("Perfil", usuario);
-        }
-        public async Task<Usuario> ValidarCredenciaisAsync(string email, string senha)
-        {
-            return await _serviceUsuario.oRepositoryUsuario._context.Usuarios
-                .FirstOrDefaultAsync(u => u.Email == email && u.Cpf == senha);
-        }
     }
 }

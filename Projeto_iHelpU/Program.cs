@@ -21,12 +21,14 @@ builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationSc
     });
 
 // Registro de dependências para injeção de dependência
+builder.Services.AddScoped<ITipoServico_Service, TipoServicoService>();
 builder.Services.AddScoped<IUsuario_Service, UsuarioService>();
 builder.Services.AddScoped<IRepositoryBase<AnuncioServico>, RepositoryAnuncioServico>();
 builder.Services.AddScoped<IAnuncioServico_Service, AnuncioServico_Service>();
 builder.Services.AddScoped<IAuthService, AuthService>();
 builder.Services.AddScoped<AnuncioServico_Service>();
 builder.Services.AddHttpContextAccessor();
+
 
 builder.Services.AddSession(options =>
 {

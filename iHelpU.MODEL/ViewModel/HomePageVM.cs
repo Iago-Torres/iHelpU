@@ -11,5 +11,7 @@ namespace iHelpU.MODEL.ViewModel
         public string Primeiro_Nome { get; set; }
         public TimeSpan TempoRestanteSessao { get; set; }
         public IEnumerable<Status> Statuses { get; set; }
+        public IEnumerable<TipoServico> TiposServico { get; set; } 
+        public int? TipoServicoSelecionado { get; set; } 
     }
 }
