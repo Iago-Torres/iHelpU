@@ -96,15 +96,16 @@
 
             <div class="form-group">
                 <label asp-for="Cpf" class="control-label">CPF</label>
-                <input asp-for="Cpf" class="form-control" placeholder="000.000.000-00" />
+                <input asp-for="Cpf" class="form-control" maxlength="14" placeholder="000.000.000-00" id="cpf" />
                 <span asp-validation-for="Cpf" class="text-danger"></span>
             </div>
 
             <div class="form-group">
                 <label asp-for="Telefone" class="control-label">Telefone</label>
-                <input asp-for="Telefone" class="form-control" placeholder="(00) 00000-0000" />
+                <input asp-for="Telefone" class="form-control" maxlength="15" placeholder="(00) 00000-0000" id="telefone" />
                 <span asp-validation-for="Telefone" class="text-danger"></span>
             </div>
+
             <div class="form-group">
     <label asp-for="Senha" class="control-label">Senha</label>
     <input asp-for="Senha" type="password" class="form-control" placeholder="Digite sua senha" />
@@ -125,5 +126,19 @@
 @section Scripts {
     @{
         await Html.RenderPartialAsync("_ValidationScriptsPartial");
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.mask/1.14.16/jquery.mask.min.js"></script>
+        <script>
+            $(document).ready(function () {
+                $('#cpf').mask('000.000.000-00'); // Aplica a máscara para o campo CPF
+            });
+        </script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.mask/1.14.16/jquery.mask.min.js"></script>
+        <script>
+            $(document).ready(function () {
+                $('#telefone').mask('(00) 00000-0000'); // Aplica a máscara ao campo Telefone
+            });
+        </script>
     }
 }

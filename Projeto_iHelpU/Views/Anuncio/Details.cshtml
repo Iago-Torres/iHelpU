@@ -72,6 +72,15 @@
         margin-top: 20px;
         border-radius: 8px;
     }
+
+    .modal-body {
+        color: #000;
+    }
+
+    .modal-header {
+        color: #000;
+    }
+
 </style>
 
 <div class="details-container">
@@ -108,6 +117,32 @@
 
     <div class="button-container">
         <a href="@Url.Action("HomePage", "iHelpU")" class="btn-secondary">Voltar</a>
+    </div>
+
+    <div class="button-container">
+        <!-- Botão para abrir o modal -->
+        <button type="button" class="btn-primary" data-bs-toggle="modal" data-bs-target="#contatoModal">
+            Ver Contatos
+        </button>
+    </div>
+</div>
+
+<!-- Modal para exibir os contatos -->
+<div class="modal fade" id="contatoModal" tabindex="-1" aria-labelledby="contatoModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="contatoModalLabel">Contatos do Anunciante</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <p><strong>Email:</strong> @Model.Usuario?.Email</p>
+                <p><strong>Telefone:</strong> @Model.Usuario?.Telefone</p>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn-secondary" data-bs-dismiss="modal">Fechar</button>
+            </div>
+        </div>
     </div>
 </div>
 

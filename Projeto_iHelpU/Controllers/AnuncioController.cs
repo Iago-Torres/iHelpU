@@ -103,7 +103,6 @@ namespace Projeto_iHelpU.Controllers
         [HttpPost]
         public async Task<IActionResult> Create(AnuncioServico anuncio)
         {
-            //var usuarioId = ObterUsuarioLogado();
             var usuarioId = ObterUsuarioLogado();
             ModelState.Remove("Id");
             if (ModelState.IsValid)
@@ -158,7 +157,6 @@ namespace Projeto_iHelpU.Controllers
             return View(servicosPrestados);
         }
 
-
         public async Task<IActionResult> Edit(int id)
         {
             // Obtém o anúncio com as propriedades relacionadas
@@ -171,10 +169,21 @@ namespace Projeto_iHelpU.Controllers
             // Verifica se o anúncio foi encontrado
             if (anuncio == null)
                 return NotFound();
-            return View(anuncio);
+
+            // Cria o ViewModel e preenche com os dados do modelo
+            var viewModel = new AnuncioEditVM
+            {
+                Id = anuncio.Id,
+                NomeServico = anuncio.NomeServico,
+                Descricao = anuncio.Descricao,
+                coordenada_x = anuncio.CoordenadaX,
+                coordenada_y = anuncio.CoordenadaY,
+                TipoServicoId = (int)anuncio.TipoServicoId,
+                IdStatus = (int)anuncio.IdStatus,
+                TipoServicos = await _context.TipoServicos.ToListAsync()
+            };
+            return View(viewModel);
         }
-
-
 
         [HttpPost]
         public async Task<IActionResult> Edit(AnuncioServico anuncio)

@@ -79,17 +79,8 @@ namespace Projeto_iHelpU.Controllers
 
         public async Task<IActionResult> Details(int id)
         {
-            var usuario = await _serviceUsuario.oRepositoryUsuario.SelecionarChaveAsync(id);
-            if (usuario == null)
-            {
-                return NotFound();
-            }
-            return View(usuario);
-        }
-
-        public async Task<IActionResult> Delete(int id)
-        {
-            var usuario = await _serviceUsuario.oRepositoryUsuario.SelecionarChaveAsync(id);
+            int usuarioLogadoId = ObterUsuarioLogado();
+            var usuario = await _serviceUsuario.oRepositoryUsuario.ObterUsuarioPorId(usuarioLogadoId);
             if (usuario == null)
             {
                 return NotFound();

@@ -14,7 +14,10 @@ namespace iHelpU.MODEL.ViewModel
         public string NomeServico { get; set; }
         public string Descricao { get; set; }
         public string TipoServico { get; set; }
-        public decimal coordenada_x { get; set; }
-        public decimal coordenada_y { get; set; }
+        public string coordenada_x { get; set; }
+        public string coordenada_y { get; set; }
+        public int TipoServicoId { get; set; }
+        public int IdStatus { get; set; }
+        public IEnumerable<TipoServico> TipoServicos { get; set; }
     }
 }

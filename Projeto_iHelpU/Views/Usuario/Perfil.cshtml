@@ -7,10 +7,11 @@
 <h2>Editar Perfil</h2>
 
 @if (Model != null)
+
 {
-    
     <form asp-action="Perfil" method="post">
 
+        <!-- Campos ocultos para manter dados importantes -->
         <input type="hidden" asp-for="Id" />
         <input type="hidden" asp-for="Senha" />
 
@@ -34,16 +35,30 @@
 
         <div class="form-group">
             <label asp-for="Cpf">CPF</label>
-            <input asp-for="Cpf" class="form-control" />
+            <input asp-for="Cpf" class="form-control" maxlength="14" placeholder="000.000.000-00" id="cpf" />
             <span asp-validation-for="Cpf" class="text-danger"></span>
         </div>
 
         <div class="form-group">
             <label asp-for="Telefone">Telefone</label>
-            <input asp-for="Telefone" class="form-control" />
+            <input asp-for="Telefone" class="form-control" maxlength="15" placeholder="(00) 00000-0000" id="telefone" />
             <span asp-validation-for="Telefone" class="text-danger"></span>
         </div>
 
         <button type="submit" class="btn btn-success">Salvar Alterações</button>
     </form>
+}
+
+@section Scripts {
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.mask/1.14.16/jquery.mask.min.js"></script>
+    <script>
+        $(document).ready(function () {
+            // Máscara para CPF
+            $('#cpf').mask('000.000.000-00');
+
+            // Máscara para Telefone
+            $('#telefone').mask('(00) 00000-0000');
+        });
+    </script>
 }
