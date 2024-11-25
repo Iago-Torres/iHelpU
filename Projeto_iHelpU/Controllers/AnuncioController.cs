@@ -159,30 +159,12 @@ namespace Projeto_iHelpU.Controllers
 
         public async Task<IActionResult> Edit(int id)
         {
-            // Obtém o anúncio com as propriedades relacionadas
-            var anuncio = await _context.AnuncioServicos
-                .Include(a => a.Usuario)
-                .Include(a => a.TipoServico)
-                .Include(a => a.IdStatusNavigation)
-                .FirstOrDefaultAsync(a => a.Id == id);
-
-            // Verifica se o anúncio foi encontrado
-            if (anuncio == null)
-                return NotFound();
-
-            // Cria o ViewModel e preenche com os dados do modelo
-            var viewModel = new AnuncioEditVM
+            var usuario = await _serviceAnuncio.oRepositoryAnuncioServico.SelecionarChaveAsync(id);
+            if (usuario == null)
             {
-                Id = anuncio.Id,
-                NomeServico = anuncio.NomeServico,
-                Descricao = anuncio.Descricao,
-                coordenada_x = anuncio.CoordenadaX,
-                coordenada_y = anuncio.CoordenadaY,
-                TipoServicoId = (int)anuncio.TipoServicoId,
-                IdStatus = (int)anuncio.IdStatus,
-                TipoServicos = await _context.TipoServicos.ToListAsync()
-            };
-            return View(viewModel);
+                return NotFound();
+            }
+            return View(usuario);
         }
 
         [HttpPost]

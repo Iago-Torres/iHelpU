@@ -1,4 +1,4 @@
-﻿@model iHelpU.MODEL.ViewModel.AnuncioEditVM
+﻿@model iHelpU.MODEL.Models.AnuncioServico
 
 @{
     ViewData["Title"] = "Editar Anúncio";
@@ -33,6 +33,14 @@
 
                     <!-- Campo Nome do Serviço -->
                     <div class="form-group">
+                        <label asp-for="TipoServicoId" class="control-label">Tipo de Serviço</label>
+                        <input asp-for="TipoServicoId" class="form-control" />
+                        <span asp-validation-for="TipoServicoId" class="text-danger"></span>
+                    </div>
+                    
+                    
+                    <!-- Campo Nome do Serviço -->
+                    <div class="form-group">
                         <label asp-for="NomeServico" class="control-label">Nome do Serviço</label>
                         <input asp-for="NomeServico" class="form-control" />
                         <span asp-validation-for="NomeServico" class="text-danger"></span>
@@ -45,39 +53,27 @@
                         <span asp-validation-for="Descricao" class="text-danger"></span>
                     </div>
 
-                    <!-- Dropdown Tipo de Serviço -->
-                    <div class="form-group">
-                        <label asp-for="TipoServicoId" class="control-label">Tipo de Serviço</label>
-                        <select asp-for="TipoServicoId" class="form-control" asp-items="@(new SelectList(Model.TipoServicos, "Id", "Descricao"))"></select>
-                        <span asp-validation-for="TipoServicoId" class="text-danger"></span>
-                    </div>
-
-                    <!-- Campo Usuário (somente leitura) -->
-                    <div class="form-group">
-                        <label class="control-label">Usuário</label>
-                        <input type="text" value="@Model.UsuarioList" class="form-control" readonly />
-                    </div>
-
-                    <!-- Dropdown Status -->
-                    <div class="form-group">
-                        <label asp-for="IdStatus" class="control-label">Status</label>
-                        <select asp-for="IdStatus" class="form-control" asp-items="@(new SelectList(Model.StatusList, "Id", "Descricao"))"></select>
-                        <span asp-validation-for="IdStatus" class="text-danger"></span>
-                    </div>
-
                     <!-- Campo Coordenada X -->
                     <div class="form-group">
-                        <label asp-for="coordenada_x" class="control-label">Coordenada X</label>
-                        <input asp-for="coordenada_x" class="form-control" />
-                        <span asp-validation-for="coordenada_x" class="text-danger"></span>
+                        <label asp-for="CoordenadaX" class="control-label">Coordenada X</label>
+                        <input asp-for="CoordenadaX" class="form-control" />
+                        <span asp-validation-for="CoordenadaX" class="text-danger"></span>
                     </div>
 
                     <!-- Campo Coordenada Y -->
                     <div class="form-group">
-                        <label asp-for="coordenada_y" class="control-label">Coordenada Y</label>
-                        <input asp-for="coordenada_y" class="form-control" />
-                        <span asp-validation-for="coordenada_y" class="text-danger"></span>
+                        <label asp-for="CoordenadaY" class="control-label">Coordenada Y</label>
+                        <input asp-for="CoordenadaY" class="form-control" />
+                        <span asp-validation-for="CoordenadaY" class="text-danger"></span>
                     </div>
+
+                    
+                    <div class="form-group">
+                        <label asp-for="IdStatusNavigation" class="control-label">Status</label>
+                        <input asp-for="IdStatusNavigation" class="form-control" />
+                        <span asp-validation-for="IdStatusNavigation" class="text-danger"></span>
+                    </div>
+
 
                     <!-- Botões -->
                     <div class="form-group mt-3">

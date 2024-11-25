@@ -18,9 +18,8 @@ public partial class AnuncioServico
 
     public string Descricao { get; set; }
 
-    //[Column(TypeName = "decimal(10, 8)")]
     public string CoordenadaX { get; set; }
-    //[Column(TypeName = "decimal(10, 8)")]
+
     public string CoordenadaY { get; set; }
 
     public int? IdStatus { get; set; }
