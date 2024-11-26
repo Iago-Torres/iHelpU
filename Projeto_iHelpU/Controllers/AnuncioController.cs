@@ -164,14 +164,21 @@ namespace Projeto_iHelpU.Controllers
             {
                 return NotFound();
             }
+            CarregarTiposServico();
+            CarregarStatus();
             return View(usuario);
         }
 
         [HttpPost]
         public async Task<IActionResult> Edit(AnuncioServico anuncio)
         {
+            var usuarioId = ObterUsuarioLogado();
             if (ModelState.IsValid)
             {
+                if (usuarioId.HasValue)
+                {
+                    anuncio.UsuarioId = usuarioId.Value;
+                }
                 _context.Entry(anuncio).State = EntityState.Modified;
                 await _context.SaveChangesAsync();
                 ViewData["Mensagem"] = "Dados alterados com sucesso.";

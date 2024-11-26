@@ -31,55 +31,171 @@
                 <form asp-action="Edit">
                     <div asp-validation-summary="ModelOnly" class="text-danger"></div>
 
-                    <!-- Campo Nome do Serviço -->
-                    <div class="form-group">
+                    <div class="form-group mb-3">
                         <label asp-for="TipoServicoId" class="control-label">Tipo de Serviço</label>
-                        <input asp-for="TipoServicoId" class="form-control" />
+                        <select asp-for="TipoServicoId" class="form-control" asp-items="ViewBag.TiposServico"></select>
                         <span asp-validation-for="TipoServicoId" class="text-danger"></span>
                     </div>
-                    
-                    
-                    <!-- Campo Nome do Serviço -->
+
+                    <input asp-for="UsuarioId" type="hidden" />
+                    <div class="form-group mb-3">
+                        <label asp-for="UsuarioId" class="control-label">Usuário</label>
+                        <textarea asp-for="UsuarioId" class="form-control"></textarea>
+                        <span asp-validation-for="UsuarioId" class="text-danger"></span>
+                    </div>
+
+                @* <dt class="col-sm-4">Usuário</dt>
+                <dd class="col-sm-8">@Model.Usuario?.Id</dd>
+ *@
                     <div class="form-group">
                         <label asp-for="NomeServico" class="control-label">Nome do Serviço</label>
                         <input asp-for="NomeServico" class="form-control" />
                         <span asp-validation-for="NomeServico" class="text-danger"></span>
                     </div>
 
-                    <!-- Campo Descrição -->
                     <div class="form-group">
                         <label asp-for="Descricao" class="control-label">Descrição</label>
                         <textarea asp-for="Descricao" class="form-control"></textarea>
                         <span asp-validation-for="Descricao" class="text-danger"></span>
                     </div>
 
-                    <!-- Campo Coordenada X -->
                     <div class="form-group">
                         <label asp-for="CoordenadaX" class="control-label">Coordenada X</label>
-                        <input asp-for="CoordenadaX" class="form-control" />
+                        <input asp-for="CoordenadaX" class="form-control" id="latitude" readonly />
                         <span asp-validation-for="CoordenadaX" class="text-danger"></span>
                     </div>
 
-                    <!-- Campo Coordenada Y -->
                     <div class="form-group">
                         <label asp-for="CoordenadaY" class="control-label">Coordenada Y</label>
-                        <input asp-for="CoordenadaY" class="form-control" />
+                        <input asp-for="CoordenadaY" class="form-control" id="longitude" readonly />
                         <span asp-validation-for="CoordenadaY" class="text-danger"></span>
                     </div>
 
-                    
-                    <div class="form-group">
-                        <label asp-for="IdStatusNavigation" class="control-label">Status</label>
-                        <input asp-for="IdStatusNavigation" class="form-control" />
-                        <span asp-validation-for="IdStatusNavigation" class="text-danger"></span>
-                    </div>
 
+                    <div class="form-group mb-3">
+                        <label asp-for="IdStatus" class="control-label">Status</label>
+                        <select asp-for="IdStatus" class="form-control" asp-items="ViewBag.Status"></select>
+                        <span asp-validation-for="IdStatus" class="text-danger"></span>
+                    </div>
 
                     <!-- Botões -->
                     <div class="form-group mt-3">
                         <button type="submit" class="btn btn-primary">Salvar</button>
                         <a asp-action="Index" class="btn btn-secondary">Voltar</a>
                     </div>
+                    
+                    <div id="map" style="width: 100%; height: 400px;"></div>
+                    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBMW3nm3S46jerl6RPcygOI_CnnY_1Aj5w&callback=initMap" async defer></script>
+                    <script>
+                        let map, infoWindow;
+
+                        function initMap() {
+                            // Configuração inicial do mapa
+                            map = new google.maps.Map(document.getElementById("map"), {
+                                center: { lat: -22.482714819011402, lng: -44.472930834656815 }, // Posição inicial
+                                zoom: 8,
+                            });
+
+                            // Informações para janela de diálogo
+                            infoWindow = new google.maps.InfoWindow();
+
+                            // Adicionando marcador inicial
+                            const marker = new google.maps.Marker({
+                                position: { lat: -22.482714819011402, lng: -44.472930834656815 },
+                                map: map,
+                                draggable: true, // Permitindo arrastar o marcador
+                            });
+
+                            // Atualizar campos de coordenadas ao mover o marcador
+                            google.maps.event.addListener(marker, "dragend", function () {
+                                const position = marker.getPosition();
+                                document.getElementById("latitude").value = position.lat();
+                                document.getElementById("longitude").value = position.lng();
+                            });
+
+                            // Atualizar marcador ao clicar no mapa
+                            google.maps.event.addListener(map, "click", function (event) {
+                                const position = event.latLng;
+                                marker.setPosition(position);
+                                document.getElementById("latitude").value = position.lat();
+                                document.getElementById("longitude").value = position.lng();
+                            });
+
+                            // Adicionando botão personalizado
+                            const locationButton = document.createElement("button");
+                            locationButton.textContent = "Centralizar na Localização Atual";
+                            locationButton.classList.add("custom-map-control-button");
+                            map.controls[google.maps.ControlPosition.TOP_CENTER].push(locationButton);
+
+                            // Evento para centralizar no local atual
+                            locationButton.addEventListener("click", () => {
+                                if (navigator.geolocation) {
+                                    navigator.geolocation.getCurrentPosition(
+                                        (position) => {
+                                            const pos = {
+                                                lat: position.coords.latitude,
+                                                lng: position.coords.longitude,
+                                            };
+
+                                            // Centralizar mapa e marcador
+                                            marker.setPosition(pos);
+                                            map.setCenter(pos);
+
+                                            // Atualizar os campos de coordenadas
+                                            document.getElementById("latitude").value = pos.lat;
+                                            document.getElementById("longitude").value = pos.lng;
+
+                                            // Mostrar mensagem no mapa
+                                            infoWindow.setPosition(pos);
+                                            infoWindow.setContent("Sua localização!");
+                                            infoWindow.open(map);
+                                        },
+                                        () => {
+                                            handleLocationError(true, infoWindow, map.getCenter());
+                                        }
+                                    );
+                                } else {
+                                    handleLocationError(false, infoWindow, map.getCenter());
+                                }
+                            });
+                        }
+                        document.getElementById("latitude").addEventListener("blur", () => {
+                            let latitudeField = document.getElementById("latitude");
+                            latitudeField.value = latitudeField.value.trim();
+                        });
+
+                        document.getElementById("longitude").addEventListener("blur", () => {
+                            let longitudeField = document.getElementById("longitude");
+                            longitudeField.value = longitudeField.value.trim();
+                        });
+
+
+
+                        // Tratamento de erro ao obter localização
+                        function handleLocationError(browserHasGeolocation, infoWindow, pos) {
+                            infoWindow.setPosition(pos);
+                            infoWindow.setContent(
+                                browserHasGeolocation
+                                    ? "Erro: O serviço de Geolocalização falhou."
+                                    : "Erro: Seu navegador não suporta geolocalização."
+                            );
+                            infoWindow.open(map);
+                        }
+                    </script>
+                    @if (ViewData["Mensagem"] != null)
+                    {
+                        <div class="alert alert-success" role="alert">
+                            @ViewData["Mensagem"]
+                        </div>
+                    }
+
+                    @if (ViewData["MensagemErro"] != null)
+                    {
+                        <div class="alert alert-danger" role="alert">
+                            @ViewData["MensagemErro"]
+                        </div>
+                    }
+
                 </form>
             </div>
         </div>
@@ -87,8 +203,8 @@
 </div>
 
 @section Scripts {
-    @await Html.PartialAsync("_ValidationScriptsPartial")
-
+     @await Html.PartialAsync("_ValidationScriptsPartial")
+}
     <style>
         /* Menu lateral */
         .sidebar {
@@ -151,4 +267,6 @@
             color: #fff;
         }
     </style>
-}
+
+
+    
