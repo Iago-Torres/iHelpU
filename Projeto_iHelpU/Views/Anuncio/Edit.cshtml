@@ -81,7 +81,7 @@
                     <!-- Botões -->
                     <div class="form-group mt-3">
                         <button type="submit" class="btn btn-primary">Salvar</button>
-                        <a asp-action="Index" class="btn btn-secondary">Voltar</a>
+                        <a asp-action="ServicosCriados" class="btn btn-secondary">Voltar</a>
                     </div>
                     
                     <div id="map" style="width: 100%; height: 400px;"></div>
@@ -90,44 +90,50 @@
                         let map, infoWindow;
 
                         function initMap() {
+                            // Obter valores iniciais dos campos de latitude e longitude
+                            const latField = document.getElementById("latitude");
+                            const lngField = document.getElementById("longitude");
+
+                            const initialLat = parseFloat(latField.value) || -22.482714819011402;
+                            const initialLng = parseFloat(lngField.value) || -44.472930834656815;
+
                             // Configuração inicial do mapa
                             map = new google.maps.Map(document.getElementById("map"), {
-                                center: { lat: -22.482714819011402, lng: -44.472930834656815 }, // Posição inicial
+                                center: { lat: initialLat, lng: initialLng },
                                 zoom: 8,
                             });
 
-                            // Informações para janela de diálogo
+                            // Informações para a janela de diálogo
                             infoWindow = new google.maps.InfoWindow();
 
-                            // Adicionando marcador inicial
+                            // Adicionar marcador inicial
                             const marker = new google.maps.Marker({
-                                position: { lat: -22.482714819011402, lng: -44.472930834656815 },
+                                position: { lat: initialLat, lng: initialLng },
                                 map: map,
-                                draggable: true, // Permitindo arrastar o marcador
+                                draggable: true, // Permitindo que o marcador seja arrastado
                             });
 
-                            // Atualizar campos de coordenadas ao mover o marcador
+                            // Atualizar os campos de latitude e longitude ao mover o marcador
                             google.maps.event.addListener(marker, "dragend", function () {
                                 const position = marker.getPosition();
-                                document.getElementById("latitude").value = position.lat();
-                                document.getElementById("longitude").value = position.lng();
+                                latField.value = position.lat().toFixed(6);
+                                lngField.value = position.lng().toFixed(6);
                             });
 
                             // Atualizar marcador ao clicar no mapa
                             google.maps.event.addListener(map, "click", function (event) {
                                 const position = event.latLng;
                                 marker.setPosition(position);
-                                document.getElementById("latitude").value = position.lat();
-                                document.getElementById("longitude").value = position.lng();
+                                latField.value = position.lat().toFixed(6);
+                                lngField.value = position.lng().toFixed(6);
                             });
 
-                            // Adicionando botão personalizado
+                            // Adicionar botão para centralizar na localização atual
                             const locationButton = document.createElement("button");
                             locationButton.textContent = "Centralizar na Localização Atual";
                             locationButton.classList.add("custom-map-control-button");
                             map.controls[google.maps.ControlPosition.TOP_CENTER].push(locationButton);
 
-                            // Evento para centralizar no local atual
                             locationButton.addEventListener("click", () => {
                                 if (navigator.geolocation) {
                                     navigator.geolocation.getCurrentPosition(
@@ -137,13 +143,13 @@
                                                 lng: position.coords.longitude,
                                             };
 
-                                            // Centralizar mapa e marcador
+                                            // Centralizar o mapa e atualizar marcador
                                             marker.setPosition(pos);
                                             map.setCenter(pos);
 
                                             // Atualizar os campos de coordenadas
-                                            document.getElementById("latitude").value = pos.lat;
-                                            document.getElementById("longitude").value = pos.lng;
+                                            latField.value = pos.lat.toFixed(6);
+                                            lngField.value = pos.lng.toFixed(6);
 
                                             // Mostrar mensagem no mapa
                                             infoWindow.setPosition(pos);
@@ -158,20 +164,18 @@
                                     handleLocationError(false, infoWindow, map.getCenter());
                                 }
                             });
+
+                            // Validar e ajustar os valores ao perder o foco dos campos
+                            latField.addEventListener("blur", () => {
+                                latField.value = latField.value.trim();
+                            });
+
+                            lngField.addEventListener("blur", () => {
+                                lngField.value = lngField.value.trim();
+                            });
                         }
-                        document.getElementById("latitude").addEventListener("blur", () => {
-                            let latitudeField = document.getElementById("latitude");
-                            latitudeField.value = latitudeField.value.trim();
-                        });
 
-                        document.getElementById("longitude").addEventListener("blur", () => {
-                            let longitudeField = document.getElementById("longitude");
-                            longitudeField.value = longitudeField.value.trim();
-                        });
-
-
-
-                        // Tratamento de erro ao obter localização
+                        // Tratamento de erros ao obter a localização
                         function handleLocationError(browserHasGeolocation, infoWindow, pos) {
                             infoWindow.setPosition(pos);
                             infoWindow.setContent(

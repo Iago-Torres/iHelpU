@@ -146,7 +146,6 @@ namespace Projeto_iHelpU.Controllers
             var userId = ObterUsuarioLogado(); 
             if (userId == null) return Unauthorized();
 
-            // Buscar os serviços contratados
             var servicosPrestados = await _context.ContratacaoServicos
                 .Include(c => c.AnuncioServico)
                     .ThenInclude(a => a.TipoServico)
