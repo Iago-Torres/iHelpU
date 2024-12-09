@@ -12,7 +12,7 @@ namespace iHelpU.MODEL.Repositories
         {
         }
 
-        // Método para obter todos os anúncios criados pelo usuário
+        // Obter todos os anúncios criados
         public async Task<List<AnuncioServico>> ObterServicosCriados(int userId)
         {
             return await _context.AnuncioServicos
@@ -20,7 +20,7 @@ namespace iHelpU.MODEL.Repositories
                 .ToListAsync();
         }
 
-        // Método para obter todos os serviços prestados pelo usuário
+        // Obter todos os serviços prestados
         public async Task<List<AnuncioServico>> ObterServicosPrestados(int userId)
         {
             return await _context.ContratacaoServicos

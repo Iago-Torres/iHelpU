@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
 namespace Projeto_iHelpU.Controllers
+    // Precisa de muitas alterações, temos de ver sobre como implementar as competências de um modo que se interligue com os tipos de serviço
 {
     public class CompetenciaController : Controller
     {

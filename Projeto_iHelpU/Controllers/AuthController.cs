@@ -20,7 +20,7 @@ namespace Projeto_iHelpU.Controllers
 
         // Exibe a página de login
         [HttpGet]
-        public IActionResult Login()
+        public IActionResult Login() // Básico da Autenticação
         {
             if (User.Identity.IsAuthenticated)
             {

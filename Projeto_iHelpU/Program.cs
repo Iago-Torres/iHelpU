@@ -29,7 +29,7 @@ builder.Services.AddScoped<IAuthService, AuthService>();
 builder.Services.AddScoped<AnuncioServico_Service>();
 builder.Services.AddHttpContextAccessor();
 
-
+// Autenticação
 builder.Services.AddSession(options =>
 {
     options.IdleTimeout = TimeSpan.FromMinutes(30);

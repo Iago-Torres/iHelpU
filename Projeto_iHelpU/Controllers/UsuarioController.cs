@@ -17,9 +17,7 @@ namespace Projeto_iHelpU.Controllers
 
         public UsuarioController(BancoTccContext context)
         {
-            _serviceUsuario = new UsuarioService(context); 
-            
-           
+            _serviceUsuario = new UsuarioService(context);
         }
 
       
@@ -28,13 +26,11 @@ namespace Projeto_iHelpU.Controllers
             var listaUsuario = await _serviceUsuario.oRepositoryUsuario.SelecionarTodosAsync();
             return View(listaUsuario);
         }
-
         public IActionResult Create()
         {
             return View();
         }
 
-     
         [HttpPost]
         public async Task<IActionResult> Create(Usuario usuario)
         {
@@ -77,7 +73,7 @@ namespace Projeto_iHelpU.Controllers
             }
         }
 
-        public async Task<IActionResult> Details(int id)
+        public async Task<IActionResult> Details(int id) // -> Talvez seja bom utilizar como Detalhes de um Perfil para ver as modificações antes de alterar
         {
             int usuarioLogadoId = ObterUsuarioLogado();
             var usuario = await _serviceUsuario.oRepositoryUsuario.ObterUsuarioPorId(usuarioLogadoId);
@@ -101,7 +97,7 @@ namespace Projeto_iHelpU.Controllers
             ViewData["Mensagem"] = "Usuário excluído com sucesso.";
             return RedirectToAction(nameof(Index));
         }
-        public IActionResult BemVindo()
+        public IActionResult BemVindo() // -> Tela de Login ou Cadastro
         {
             return View();
         }
@@ -145,7 +141,7 @@ namespace Projeto_iHelpU.Controllers
             }
             ModelState.AddModelError("", "Erro ao atualizar os dados.");
             return View(usuario); 
-        }
+        } // -> Edição de Perfil
 
     }
 }

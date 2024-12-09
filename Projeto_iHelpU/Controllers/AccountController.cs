@@ -47,12 +47,10 @@ namespace Projeto_iHelpU.Controllers
         [HttpPost]
         [ValidateAntiForgeryToken]
         public IActionResult Logout()
-        {
-                // Realize o logout aqui de acordo com sua lógica, como limpar a sessão
+        {       // Realizar logout 
                 HttpContext.Session.Clear();
                 return RedirectToAction("Login", "Auth");
         
         }
-
     }
 }

@@ -50,7 +50,7 @@ namespace Projeto_iHelpU.Controllers
             }
         }
 
-        // Editar um tipo de serviço (busca pelo id)
+        // Editar um tipo de serviço (busca pelo id) -> Bem possível que não vamos deixar passar pra versão final
         public async Task<IActionResult> Edit(int id)
         {
             var tipoServico = await _serviceTipoServico.oRepositoryTipoServico.SelecionarChaveAsync(id);
@@ -79,7 +79,7 @@ namespace Projeto_iHelpU.Controllers
         }
 
         // Exibir os detalhes de um tipo de serviço
-        public async Task<IActionResult> Details(int id)
+        public async Task<IActionResult> Details(int id) // -> Desnecessário
         {
             var tipoServico = await _serviceTipoServico.oRepositoryTipoServico.SelecionarChaveAsync(id);
             if (tipoServico == null)
@@ -87,10 +87,10 @@ namespace Projeto_iHelpU.Controllers
                 return NotFound();
             }
             return View(tipoServico);
-        }
+        } 
 
         // Exibir o formulário de exclusão
-        public async Task<IActionResult> Delete(int id)
+        public async Task<IActionResult> Delete(int id) // -> Não passa para o usuário final
         {
             var tipoServico = await _serviceTipoServico.oRepositoryTipoServico.SelecionarChaveAsync(id);
             if (tipoServico == null)
@@ -100,7 +100,7 @@ namespace Projeto_iHelpU.Controllers
             return View(tipoServico);
         }
 
-        // Confirmar e excluir o tipo de serviço
+        // Confirmar e excluir o tipo de serviço -> Também não passa para o usuário final
         [HttpPost]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {

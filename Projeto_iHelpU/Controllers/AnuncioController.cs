@@ -35,16 +35,6 @@ namespace Projeto_iHelpU.Controllers
                 Text = tipo.Descricao
             });
         }
-        private void CarregarTiposServico()
-        {
-            var tiposServico = TipoServicoHelper.ObterTiposServico(_context);
-            ViewBag.TiposServico = tiposServico.Select(tipo => new SelectListItem
-            {
-                Value = tipo.Id.ToString(),
-                Text = tipo.Descricao
-            });
-        }
-
         private IEnumerable<SelectListItem> ObterListaStatus()
         {
             var statuses = _context.Statuses.ToList();
@@ -54,7 +44,25 @@ namespace Projeto_iHelpU.Controllers
                 Text = status.Descricao
             });
         }
-
+        private int? ObterUsuarioLogado() // -> Obter o Usuário Logado só funciona dentro do mesmo re´positório, não funciona chamando de outro lugar
+        {
+            var userIdString = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
+            if (int.TryParse(userIdString, out int userId))
+            {
+                return userId;
+            }
+            return null;
+        }
+        // -> Métodos que retornam Lista tanto de Status e Tipos de Serviço
+        private void CarregarTiposServico()
+        {
+            var tiposServico = TipoServicoHelper.ObterTiposServico(_context);
+            ViewBag.TiposServico = tiposServico.Select(tipo => new SelectListItem
+            {
+                Value = tipo.Id.ToString(),
+                Text = tipo.Descricao
+            });
+        }
         private void CarregarStatus()
         {
             var statuses = Status_Helper.ObterTodosStatus(_context);
@@ -64,18 +72,7 @@ namespace Projeto_iHelpU.Controllers
                 Text = status.Descricao
             });
         }
-
-        private int? ObterUsuarioLogado()
-        {
-            var userIdString = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
-            if (int.TryParse(userIdString, out int userId))
-            {
-                return userId;
-            }
-            return null;
-        }
-
-        
+        // -> Carregamento dos métodos acima
         public async Task<IActionResult> Index()
         {
             var anuncios = await _context.AnuncioServicos
@@ -93,11 +90,6 @@ namespace Projeto_iHelpU.Controllers
             CarregarStatus();
             return View();
 
-        }
-
-        public IActionResult TesteMapa()
-        {
-            return View();
         }
 
         [HttpPost]

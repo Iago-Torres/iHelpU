@@ -20,12 +20,12 @@ namespace iHelpU.MODEL.Repositories
                                  .FirstOrDefaultAsync(u => u.Id == usuarioId);
         }
 
-        public async Task<Usuario> ObterUsuarioporCredencial(string email, string cpf)
+        public async Task<Usuario> ObterUsuarioporCredencial(string email, string cpf) //Verificação na AuthController
         {
             return await _context.Usuarios
                 .FirstOrDefaultAsync(u => u.Email == email && u.Cpf == cpf); 
         }
-        public Usuario UsuarioLogado(int usuarioId)
+        public Usuario UsuarioLogado(int usuarioId) //Pega ID do Usuário também 
         {
             return _context.Usuarios.FirstOrDefault(u => u.Id == usuarioId);
         }

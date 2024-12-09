@@ -44,9 +44,6 @@ namespace Projeto_iHelpU.Controllers
 
             return View(viewModel);
         }
-
-
-
         public IActionResult Index()
         {
             return View();

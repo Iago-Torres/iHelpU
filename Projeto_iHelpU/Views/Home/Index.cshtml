@@ -6,6 +6,7 @@
     ViewBag.Title = "iHelpU";
 }
 
+<!-- Linkando o arquivo CSS -->
 <link rel="stylesheet" href="~/Content/style.css" />
 
 <header>
@@ -20,24 +21,22 @@
 </header>
 
 <main>
+    <!-- Hero Section -->
     <section class="hero">
         <div class="hero-container">
             <img src="~/Content/images/Pagina_Inicial.png" alt="Conectando profissionais e clientes" />
             <h2>Conectando profissionais e clientes de forma rápida e confiável</h2>
         </div>
+        <button class="hero-btn">@Html.ActionLink("Comece hoje mesmo!", "BemVindo", "Usuario", null, new { @class = "btn-link" })</button>
     </section>
-    <button class="hero-btn">@Html.ActionLink("Comece hoje mesmo!", "BemVindo", "Usuario", null, new { @class = "btn-link" })</button>
-    
 
-
-
-
-
+    <!-- Welcome Section -->
     <section class="welcome">
         <h3>Bem Vindo ao iHelpU</h3>
         <p>No iHelpU conectamos você que precisa de alguém pra um trabalho rápido e/ou continuo e pra você que quer demonstrar suas habilidades em empregos com a sua cara.</p>
     </section>
 
+    <!-- Features Section -->
     <section class="features">
         <h2>O que fazemos?</h2>
 
@@ -52,7 +51,11 @@
             <h3>Avaliação Mútua e Transparência</h3>
             <p>Permita que clientes e profissionais se avaliem mutuamente após cada serviço, promovendo confiança, qualidade e segurança em todas as contratações realizadas pela plataforma.</p>
         </div>
+
         <a href="@Url.Action("AboutUs", "Home")" class="feature-btn">Saiba mais</a>
     </section>
 </main>
 
+<footer>
+    <p>&copy; 2024 iHelpU. Todos os direitos reservados.</p>
+</footer>

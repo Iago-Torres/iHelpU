@@ -4,7 +4,7 @@ using System.Diagnostics;
 
 namespace Projeto_iHelpU.Controllers
 {
-    public class HomeController : Controller
+    public class HomeController : Controller  //Não precisa de Alteração
     {
         private readonly ILogger<HomeController> _logger;
 
@@ -12,12 +12,10 @@ namespace Projeto_iHelpU.Controllers
         {
             _logger = logger;
         }
-
         public IActionResult Index()
         {
             return View();
         }
-
         public IActionResult Privacy()
         {
             return View();

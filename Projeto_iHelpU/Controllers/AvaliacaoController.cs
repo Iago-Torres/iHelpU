@@ -3,7 +3,8 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
 namespace Projeto_iHelpU.Controllers
-{
+{ // Avaliação não está implementada ainda, provável que precise de alterações maiores
+    // Importante não apagar essas criações de Index, Create, Details, deixa assim por enquanto, quando der alteração, aviso -> 09-12-2024
     public class AvaliacaoController : Controller
     {
         public async Task<IActionResult> Index()

@@ -50,7 +50,6 @@ namespace iHelpU.MODEL.Services
 
         public async Task LogoutAsync()
         {
-            // Limpa a sessão
             _httpContextAccessor.HttpContext.Session.Clear();
         }
 

@@ -14,7 +14,7 @@ namespace iHelpU.MODEL.Repositories
         {
         }
 
-        public IEnumerable<TipoServico> ObterTodosTiposServico()
+        public IEnumerable<TipoServico> ObterTodosTiposServico() //Obtém os Tipos de Serviços do Banco de Dados
         {
             return _context.TipoServicos.ToList(); 
         }
