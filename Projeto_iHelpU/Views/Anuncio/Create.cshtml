@@ -131,7 +131,6 @@
                             locationButton.classList.add("custom-map-control-button");
                             map.controls[google.maps.ControlPosition.TOP_CENTER].push(locationButton);
 
-                            // Evento para centralizar no local atual
                             locationButton.addEventListener("click", () => {
                                 if (navigator.geolocation) {
                                     navigator.geolocation.getCurrentPosition(
@@ -140,8 +139,6 @@
                                                 lat: position.coords.latitude,
                                                 lng: position.coords.longitude,
                                             };
-
-                                            // Centralizar mapa e marcador
                                             marker.setPosition(pos);
                                             map.setCenter(pos);
 
