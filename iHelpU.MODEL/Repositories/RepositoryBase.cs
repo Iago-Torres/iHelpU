@@ -108,6 +108,11 @@ namespace iHelpU.MODEL.Repositories
             return await _context.Set<T>().FindAsync(variavel);
         }
 
+        public List<T> SelecionarTodos(string estado)
+        {
+            return _context.Set<T>().ToList();
+        }
+
         public List<T> SelecionarTodos()
         {
             return _context.Set<T>().ToList();

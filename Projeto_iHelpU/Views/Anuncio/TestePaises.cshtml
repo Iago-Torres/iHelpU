@@ -1,0 +1,138 @@
+﻿@model iHelpU.MODEL.Models.AnuncioServico
+
+@{
+    ViewData["Title"] = "Solicitar Serviço";
+}
+
+<div class="home-container">
+    <!-- Menu Lateral -->
+    <div class="sidebar">
+        <h3>Menu</h3>
+        <a href="@Url.Action("HomePage", "iHelpU")">Página Inicial</a>
+        <a href="@Url.Action("Create", "Anuncio")">Solicitar Serviço</a>
+        <a href="@Url.Action("ServicosCriados", "Anuncio")">Gerenciar Serviços</a>
+        <a href="@Url.Action("ServicosPrestados", "Anuncio")">Histórico de Serviços</a>
+        @if (User.Identity.IsAuthenticated)
+        {
+            <form method="post" asp-action="Logout" asp-controller="Auth" class="d-inline">
+                <button type="submit" class="logout-button">
+                    Sair
+                </button>
+            </form>
+        }
+    </div>
+</div>
+<label for="pais">País:</label>
+<select id="pais" class="form-control">
+    <option value="">Selecione um país</option>
+</select>
+
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+        fetch('/Anuncio/ObterPaises')
+            .then(response => response.json())
+            .then(data => {
+                const select = document.getElementById("pais");
+                data.forEach(pais => {
+                    let option = document.createElement("option");
+                    option.value = pais;
+                    option.textContent = pais;
+                    select.appendChild(option);
+                });
+            })
+            .catch(error => console.error("Erro ao carregar países:", error));
+    });
+</script>
+
+
+
+<style>
+    .custom-map-control-button {
+        background-color: #fff;
+        border: none;
+        outline: none;
+        width: auto;
+        padding: 10px 15px;
+        font-size: 16px;
+        font-weight: bold;
+        margin-top: 10px;
+        box-shadow: 0 2px 6px rgba(0, 0, 0, 0.3);
+        cursor: pointer;
+    }
+
+        .custom-map-control-button:hover {
+            background-color: #e0e0e0;
+        }
+</style>
+
+
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+}
+
+<style>
+    /* Container principal */
+    .home-container {
+        display: flex;
+        height: 100vh;
+        background-color: #333;
+        color: #fff;
+        margin: 0;
+    }
+
+    /* Menu lateral */
+    .sidebar {
+        width: 250px;
+        background-color: #222;
+        padding: 20px;
+        position: fixed;
+        height: 100%;
+        left: 0;
+    }
+
+        .sidebar a {
+            color: #fff;
+            text-decoration: none;
+            display: block;
+            padding: 10px;
+            margin-bottom: 10px;
+            border-radius: 5px;
+            background-color: #444;
+        }
+
+            .sidebar a:hover {
+                background-color: #007bff;
+            }
+
+    .logout-button {
+        padding: 10px 20px;
+        font-size: 16px;
+        border: none;
+        border-radius: 5px;
+        color: #fff;
+        background-color: #dc3545;
+        margin-top: 20px;
+    }
+
+    /* Conteúdo principal */
+    .content {
+        margin-left: 250px;
+        padding: 20px;
+        width: calc(100% - 250px);
+        color: #ddd;
+    }
+
+    .form-group label {
+        font-weight: 500;
+        color: #fff;
+    }
+
+    .btn-primary {
+        background-color: #007bff;
+        border-color: #007bff;
+        color: #fff;
+    }
+</style>
+

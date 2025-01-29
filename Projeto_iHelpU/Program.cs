@@ -27,6 +27,9 @@ builder.Services.AddScoped<IRepositoryBase<AnuncioServico>, RepositoryAnuncioSer
 builder.Services.AddScoped<IAnuncioServico_Service, AnuncioServico_Service>();
 builder.Services.AddScoped<IAuthService, AuthService>();
 builder.Services.AddScoped<AnuncioServico_Service>();
+builder.Services.AddHttpClient<IGoogleMaps_Service, GoogleMaps_Service>();
+builder.Services.AddSingleton<IGoogleMaps_Service, GoogleMaps_Service>();
+
 builder.Services.AddHttpContextAccessor();
 
 // Autenticação

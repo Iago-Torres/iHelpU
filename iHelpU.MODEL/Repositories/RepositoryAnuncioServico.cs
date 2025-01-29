@@ -29,5 +29,6 @@ namespace iHelpU.MODEL.Repositories
                 .Select(c => c.AnuncioServico)
                 .ToListAsync();
         }
+
     }
 }

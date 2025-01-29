@@ -9,6 +9,7 @@ using iHelpU.MODEL.ViewModel;
 using iHelpU.MODEL.Repositories;
 using iHelpU.MODEL.Helpers;
 using iHelpU.MODEL.Services;
+using iHelpU.MODEL.Interface_Services;
 
 namespace Projeto_iHelpU.Controllers
 {
@@ -16,10 +17,12 @@ namespace Projeto_iHelpU.Controllers
     {
         private readonly BancoTccContext _context;
         private readonly AnuncioServico_Service _serviceAnuncio;
-        public AnuncioController(BancoTccContext context)
+        private readonly IGoogleMaps_Service _google;
+        public AnuncioController(BancoTccContext context, IGoogleMaps_Service google)
         {
             _context = context;
             _serviceAnuncio = new AnuncioServico_Service(context);
+            _google = google;
         }
 
         public async Task<AnuncioServico> SelecionarChaveAsync(int id)
@@ -44,7 +47,8 @@ namespace Projeto_iHelpU.Controllers
                 Text = status.Descricao
             });
         }
-        private int? ObterUsuarioLogado() // -> Obter o Usuário Logado só funciona dentro do mesmo re´positório, não funciona chamando de outro lugar
+
+        private int? ObterUsuarioLogado() // -> Obter o Usuário Logado só funciona dentro do mesmo repositório, não funciona chamando de outro lugar
         {
             var userIdString = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
             if (int.TryParse(userIdString, out int userId))
@@ -72,6 +76,14 @@ namespace Projeto_iHelpU.Controllers
                 Text = status.Descricao
             });
         }
+        public async Task<List<string>> CarregarEstadosAsync()
+        {
+            return await _context.AnuncioServicos
+                .Select(a => a.Estado)
+                .Distinct()
+                .ToListAsync();
+        }
+
         // -> Carregamento dos métodos acima
         public async Task<IActionResult> Index()
         {
@@ -80,6 +92,8 @@ namespace Projeto_iHelpU.Controllers
                 .Include(a => a.Usuario)
                 .Include(a => a.IdStatusNavigation)
                 .ToListAsync();
+            var estados = await CarregarEstadosAsync();
+            ViewBag.Estados = estados;
 
             return View(anuncios);
         }
@@ -179,6 +193,13 @@ namespace Projeto_iHelpU.Controllers
                 ViewData["MensagemErro"] = "Ocorreu um erro ao alterar os dados.";
             }
             return View(anuncio);
+        }
+
+        [HttpGet]
+        public async Task<IActionResult>ObterPaises()
+        {
+            var paises = await _google.ObterPaisesAsync();
+            return Json(paises);
         }
 
         public async Task<IActionResult> Details(int id)

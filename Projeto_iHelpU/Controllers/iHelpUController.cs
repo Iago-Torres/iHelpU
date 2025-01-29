@@ -41,7 +41,7 @@ namespace Projeto_iHelpU.Controllers
                 TiposServico = tiposServico,
                 TipoServicoSelecionado = tipoServicoId // Passa o valor selecionado
             };
-
+            
             return View(viewModel);
         }
         public IActionResult Index()

@@ -2,7 +2,6 @@
 #nullable disable
 using System;
 using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations.Schema;
 
 namespace iHelpU.MODEL.Models;
 
@@ -23,6 +22,12 @@ public partial class AnuncioServico
     public string CoordenadaY { get; set; }
 
     public int? IdStatus { get; set; }
+
+    public string Rua { get; set; }
+
+    public string Cidade { get; set; }
+
+    public string Estado { get; set; }
 
     public virtual ICollection<ContratacaoServico> ContratacaoServicos { get; set; } = new List<ContratacaoServico>();
 

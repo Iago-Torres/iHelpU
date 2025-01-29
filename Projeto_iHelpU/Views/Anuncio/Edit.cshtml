@@ -40,7 +40,7 @@
                     <input asp-for="UsuarioId" type="hidden" />
                     <div class="form-group mb-3">
                         <label asp-for="UsuarioId" class="control-label">Usuário</label>
-                        <textarea asp-for="UsuarioId" class="form-control"></textarea>
+                        <textarea asp-for="UsuarioId" class="form-control" readonly></textarea>
                         <span asp-validation-for="UsuarioId" class="text-danger"></span>
                     </div>
 
@@ -78,15 +78,35 @@
                         <span asp-validation-for="IdStatus" class="text-danger"></span>
                     </div>
 
+                    <div class="form-group mb-3">
+                        <label asp-for="Estado" class="control-label">Estado</label>
+                        <input asp-for="Estado" class="form-control" readonly />
+                        <span asp-validation-for="Estado" class="text-danger"></span>
+                    </div>
+
+                    <div class="form-group mb-3">
+                        <label asp-for="Cidade" class="control-label">Cidade</label>
+                        <input asp-for="Cidade" class="form-control" readonly />
+                        <span asp-validation-for="Cidade" class="text-danger"></span>
+                    </div>
+
+                    <div class="form-group mb-3">
+                        <label asp-for="Rua" class="control-label">Rua</label>
+                        <input asp-for="Rua" class="form-control" readonly />
+                        <span asp-validation-for="Rua" class="text-danger"></span>
+                    </div>
+
                     <div class="form-group mt-3">
                         <button type="submit" class="btn btn-primary">Salvar</button>
                         <a asp-action="ServicosCriados" class="btn btn-secondary">Voltar</a>
                     </div>
                     
                     <div id="map" style="width: 100%; height: 400px;"></div>
+                    
+                    <!-- Script do Google Maps -->
                     <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBMW3nm3S46jerl6RPcygOI_CnnY_1Aj5w&callback=initMap" async defer></script>
                     <script>
-                        let map, infoWindow;
+                        let map, infoWindow, marker, geocoder;
 
                         function initMap() {
                             // Obter valores iniciais dos campos de latitude e longitude
@@ -102,32 +122,35 @@
                                 zoom: 8,
                             });
 
-                            // Informações para a janela de diálogo
-                            infoWindow = new google.maps.InfoWindow();
+                            // Inicializar o Geocoder
+                            geocoder = new google.maps.Geocoder();
 
                             // Adicionar marcador inicial
-                            const marker = new google.maps.Marker({
+                            marker = new google.maps.Marker({
                                 position: { lat: initialLat, lng: initialLng },
                                 map: map,
-                                draggable: true, // Permitindo que o marcador seja arrastado
+                                draggable: true,
                             });
 
                             // Atualizar os campos de latitude e longitude ao mover o marcador
                             google.maps.event.addListener(marker, "dragend", function () {
                                 const position = marker.getPosition();
-                                latField.value = position.lat().toFixed(6);
-                                lngField.value = position.lng().toFixed(6);
+                                updateLocationFields(position.lat(), position.lng());
                             });
 
                             // Atualizar marcador ao clicar no mapa
                             google.maps.event.addListener(map, "click", function (event) {
                                 const position = event.latLng;
-                                marker.setPosition(position);
-                                latField.value = position.lat().toFixed(6);
-                                lngField.value = position.lng().toFixed(6);
+                                updateLocationFields(position.lat(), position.lng());
                             });
 
-                            // Adicionar botão para centralizar na localização atual
+                            // Atualizar campos ao mover marcador
+                            marker.addListener("dragend", () => {
+                                const position = marker.getPosition();
+                                updateLocationFields(position.lat(), position.lng());
+                            });
+
+                            // Botão para centralizar no local atual
                             const locationButton = document.createElement("button");
                             locationButton.textContent = "Centralizar na Localização Atual";
                             locationButton.classList.add("custom-map-control-button");
@@ -142,40 +165,57 @@
                                                 lng: position.coords.longitude,
                                             };
 
-                                            // Centralizar o mapa e atualizar marcador
-                                            marker.setPosition(pos);
+                                            // Atualizar mapa e marcador
+                                            updateLocationFields(pos.lat, pos.lng);
                                             map.setCenter(pos);
-
-                                            // Atualizar os campos de coordenadas
-                                            latField.value = pos.lat.toFixed(6);
-                                            lngField.value = pos.lng.toFixed(6);
-
-                                            // Mostrar mensagem no mapa
                                             infoWindow.setPosition(pos);
                                             infoWindow.setContent("Sua localização!");
                                             infoWindow.open(map);
                                         },
                                         () => {
-                                            handleLocationError(true, infoWindow, map.getCenter());
+                                            handleLocationError(true, map.getCenter());
                                         }
                                     );
                                 } else {
-                                    handleLocationError(false, infoWindow, map.getCenter());
+                                    handleLocationError(false, map.getCenter());
                                 }
-                            });
-
-                            // Validar e ajustar os valores ao perder o foco dos campos
-                            latField.addEventListener("blur", () => {
-                                latField.value = latField.value.trim();
-                            });
-
-                            lngField.addEventListener("blur", () => {
-                                lngField.value = lngField.value.trim();
                             });
                         }
 
-                        // Tratamento de erros ao obter a localização
-                        function handleLocationError(browserHasGeolocation, infoWindow, pos) {
+                        function updateLocationFields(lat, lng) {
+                            document.getElementById("latitude").value = lat.toFixed(10);
+                            document.getElementById("longitude").value = lng.toFixed(10);
+
+                            // Geocoding para obter detalhes do endereço
+                            geocoder.geocode({ location: { lat: lat, lng: lng } }, (results, status) => {
+                                if (status === "OK" && results[0]) {
+                                    console.log("Resultados do Geocoder:", results[0].address_components);
+
+                                    const addressComponents = results[0].address_components;
+
+                                    document.getElementById("Estado").value = getAddressPart(addressComponents, "administrative_area_level_1");
+                                    document.getElementById("Cidade").value = getAddressPart(addressComponents, "administrative_area_level_2");
+                                    document.getElementById("Rua").value = getAddressPart(addressComponents, "route");
+                                    document.getElementById("CEP").value = getAddressPart(addressComponents, "postal_code");
+                                } else {
+                                    console.error("Geocoding falhou: " + status);
+                                }
+                            });
+                        }
+
+                        function getAddressPart(components, type) {
+                            const part = components.find(component => component.types.includes(type));
+                            if (part) {
+                                console.log(`Encontrado ${type}:`, part.long_name);
+                                return part.long_name;
+                            } else {
+                                console.warn(`Não encontrado: ${type}`);
+                                return "Não disponível"; // Fallback
+                            }
+                        }
+
+                        function handleLocationError(browserHasGeolocation, pos) {
+                            const infoWindow = new google.maps.InfoWindow();
                             infoWindow.setPosition(pos);
                             infoWindow.setContent(
                                 browserHasGeolocation

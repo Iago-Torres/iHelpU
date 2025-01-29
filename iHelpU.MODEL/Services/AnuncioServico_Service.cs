@@ -54,5 +54,12 @@ namespace iHelpU.MODEL.Services
                 await _context.SaveChangesAsync();
             }
         }
+        public async Task<List<string>> ObterEstadosAsync()
+        {
+            return await _context.AnuncioServicos
+                .Select(a => a.Estado)
+                .Distinct()
+                .ToListAsync();
+        }
     }
 }

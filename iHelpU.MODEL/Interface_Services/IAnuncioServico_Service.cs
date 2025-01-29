@@ -7,4 +7,5 @@ public interface IAnuncioServico_Service
     Task<AnuncioServico> CreateAsync(AnuncioServico anuncioServico);
     Task UpdateAsync(AnuncioServico anuncioServico);
     Task DeleteAsync(int id);
+    
 }
