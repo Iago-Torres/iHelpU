@@ -28,12 +28,14 @@ namespace iHelpU.MODEL.Services
         }
         public async Task<List<string>> ObterPaisesAsync()
         {
-            var url = $"https://maps.googleapis.com/maps/api/place/autocomplete/json?input=a&types=(regions)&key={_googleApiKey}";
+            var url = $"https://maps.googleapis.com/maps/api/place/autocomplete/json?input=a&types=(regions)&key=AIzaSyBMW3nm3S46jerl6RPcygOI_CnnY_1Aj5w";
 
             var response = await _httpClient.GetAsync(url);
-            if (!response.IsSuccessStatusCode) return new List<string>();
+            if (!response.IsSuccessStatusCode) 
+                return new List<string>();
 
             var json = await response.Content.ReadAsStringAsync();
+            Console.WriteLine("Resposta JSON: " + json);
             var jsonData = JsonSerializer.Deserialize<GooglePlacesResponse>(json);
 
             var paises = new HashSet<string>();

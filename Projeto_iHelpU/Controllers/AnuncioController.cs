@@ -10,6 +10,7 @@ using iHelpU.MODEL.Repositories;
 using iHelpU.MODEL.Helpers;
 using iHelpU.MODEL.Services;
 using iHelpU.MODEL.Interface_Services;
+using Microsoft.Extensions.Configuration;
 
 namespace Projeto_iHelpU.Controllers
 {
@@ -18,14 +19,16 @@ namespace Projeto_iHelpU.Controllers
         private readonly BancoTccContext _context;
         private readonly AnuncioServico_Service _serviceAnuncio;
         private readonly IGoogleMaps_Service _google;
-        public AnuncioController(BancoTccContext context, IGoogleMaps_Service google)
+        private readonly IConfiguration _configuration;
+        public AnuncioController(BancoTccContext context, IConfiguration configuration)
         {
             _context = context;
             _serviceAnuncio = new AnuncioServico_Service(context);
-            _google = google;
+            _configuration = configuration;
         }
 
-        public async Task<AnuncioServico> SelecionarChaveAsync(int id)
+        
+    public async Task<AnuncioServico> SelecionarChaveAsync(int id)
         {
             return await _context.AnuncioServicos.FindAsync(id);
         }
@@ -76,6 +79,12 @@ namespace Projeto_iHelpU.Controllers
                 Text = status.Descricao
             });
         }
+
+        private void Mapas()
+        {
+            var apiKey = _configuration["GoogleMaps:ApiKey"];
+            ViewBag.key = apiKey;
+        }
         public async Task<List<string>> CarregarEstadosAsync()
         {
             return await _context.AnuncioServicos
@@ -102,6 +111,7 @@ namespace Projeto_iHelpU.Controllers
         {
             CarregarTiposServico();
             CarregarStatus();
+            Mapas();
             return View();
 
         }
@@ -171,6 +181,8 @@ namespace Projeto_iHelpU.Controllers
             }
             CarregarTiposServico();
             CarregarStatus();
+            var apiKey = _configuration["GoogleMaps:ApiKey"];
+            ViewBag.key = apiKey;
             return View(usuario);
         }
 
@@ -209,6 +221,8 @@ namespace Projeto_iHelpU.Controllers
                 .Include(a => a.TipoServico)
                 .Include(a => a.IdStatusNavigation)
                 .FirstOrDefaultAsync(a => a.Id == id);
+            var apiKey = _configuration["GoogleMaps:ApiKey"];
+            ViewBag.key = apiKey;
 
             if (anuncio == null) return NotFound();
 

@@ -103,10 +103,11 @@
                         <span asp-validation-for="Rua" class="text-danger"></span>
                     </div>
 
+                   
 
                     <!-- Div para o Mapa -->
                     <div id="map" style="width: 100%; height: 400px;"></div>
-                    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBMW3nm3S46jerl6RPcygOI_CnnY_1Aj5w&callback=initMap" async defer></script>
+                    <script src="https://maps.googleapis.com/maps/api/js?key=@ViewBag.key&callback=initMap" async defer></script>
                     <script>
                         let map, infoWindow, geocoder, marker;
 

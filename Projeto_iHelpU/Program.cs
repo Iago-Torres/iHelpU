@@ -20,6 +20,11 @@ builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationSc
         options.Cookie.HttpOnly = true;
     });
 
+//public void Mapas(IServiceCollection services)
+//{
+//    var googleMapsApiKey = Configuration["GoogleMaps:ApiKey"];
+//    services.AddSingleton(googleMapsApiKey);
+//}
 // Registro de dependências para injeção de dependência
 builder.Services.AddScoped<ITipoServico_Service, TipoServicoService>();
 builder.Services.AddScoped<IUsuario_Service, UsuarioService>();
