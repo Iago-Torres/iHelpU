@@ -16,11 +16,11 @@ namespace Projeto_iHelpU.Controllers
 {
     public class AnuncioController : Controller
     {
-        private readonly BancoTccContext _context;
+        private readonly Banco_TCCContext _context;
         private readonly AnuncioServico_Service _serviceAnuncio;
         private readonly IGoogleMaps_Service _google;
         private readonly IConfiguration _configuration;
-        public AnuncioController(BancoTccContext context, IConfiguration configuration)
+        public AnuncioController(Banco_TCCContext context, IConfiguration configuration)
         {
             _context = context;
             _serviceAnuncio = new AnuncioServico_Service(context);

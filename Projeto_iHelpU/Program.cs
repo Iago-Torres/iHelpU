@@ -10,7 +10,7 @@ var builder = WebApplication.CreateBuilder(args);
 
 // Adiciona os serviços ao contêiner
 builder.Services.AddControllersWithViews();
-builder.Services.AddDbContext<BancoTccContext>(opt => opt.UseSqlServer("Server=.\\SQLExpress;Database=Banco_TCC;Trusted_Connection=True;trustservercertificate=true"));
+builder.Services.AddDbContext<Banco_TCCContext>(opt => opt.UseSqlServer("Server=.\\SQLExpress;Database=Banco_TCC;Trusted_Connection=True;trustservercertificate=true"));
 
 // Configuração da autenticação com cookies
 builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)

@@ -13,11 +13,11 @@ namespace iHelpU.MODEL.Services
 {
     public class Avaliacao_Service : IAvaliacao_Service
     {
-        private readonly BancoTccContext _context;
+        private readonly Banco_TCCContext _context;
         public RepositoryAvaliacao oRepositoryAvaliacao { get; set; }
 
 
-        public Avaliacao_Service(BancoTccContext context)
+        public Avaliacao_Service(Banco_TCCContext context)
         {
             oRepositoryAvaliacao = new RepositoryAvaliacao(context);
             _context = context;

@@ -8,7 +8,7 @@ namespace iHelpU.MODEL.Repositories
 {
     public class RepositoryAnuncioServico : RepositoryBase<AnuncioServico>
     {
-        public RepositoryAnuncioServico(BancoTccContext context, bool saveChanges = true) : base(context, saveChanges)
+        public RepositoryAnuncioServico(Banco_TCCContext context, bool saveChanges = true) : base(context, saveChanges)
         {
         }
 

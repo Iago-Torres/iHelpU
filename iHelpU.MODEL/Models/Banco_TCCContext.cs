@@ -6,13 +6,13 @@ using Microsoft.EntityFrameworkCore;
 
 namespace iHelpU.MODEL.Models;
 
-public partial class BancoTccContext : DbContext
+public partial class Banco_TCCContext : DbContext
 {
-    public BancoTccContext()
+    public Banco_TCCContext()
     {
     }
 
-    public BancoTccContext(DbContextOptions<BancoTccContext> options)
+    public Banco_TCCContext(DbContextOptions<Banco_TCCContext> options)
         : base(options)
     {
     }
@@ -42,6 +42,10 @@ public partial class BancoTccContext : DbContext
             entity.ToTable("anuncio_servico");
 
             entity.Property(e => e.Id).HasColumnName("id");
+            entity.Property(e => e.Cep)
+                .HasMaxLength(10)
+                .IsUnicode(false)
+                .HasColumnName("CEP");
             entity.Property(e => e.Cidade).HasMaxLength(100);
             entity.Property(e => e.CoordenadaX)
                 .HasMaxLength(60)
@@ -57,10 +61,16 @@ public partial class BancoTccContext : DbContext
                 .HasColumnName("descricao");
             entity.Property(e => e.Estado).HasMaxLength(100);
             entity.Property(e => e.IdStatus).HasColumnName("id_status");
+            entity.Property(e => e.NomeLocal)
+                .HasMaxLength(100)
+                .IsUnicode(false);
             entity.Property(e => e.NomeServico)
                 .HasMaxLength(255)
                 .IsUnicode(false)
                 .HasColumnName("nome_servico");
+            entity.Property(e => e.Pais)
+                .HasMaxLength(50)
+                .IsUnicode(false);
             entity.Property(e => e.Rua).HasMaxLength(255);
             entity.Property(e => e.TipoServicoId).HasColumnName("tipo_servico_id");
             entity.Property(e => e.UsuarioId).HasColumnName("usuario_id");

@@ -11,7 +11,7 @@ namespace Projeto_iHelpU.Controllers
     public class iHelpUController : Controller
     {
         private readonly IAnuncioServico_Service _serviceAnuncio;
-        private readonly BancoTccContext _context;
+        private readonly Banco_TCCContext _context;
         private readonly ITipoServico_Service _serviceTipoServico;
         public iHelpUController(IAnuncioServico_Service serviceAnuncio, ITipoServico_Service serviceTipoServico)
         {

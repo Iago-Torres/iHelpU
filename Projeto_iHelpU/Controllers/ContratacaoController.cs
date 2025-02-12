@@ -11,7 +11,7 @@ namespace Projeto_iHelpU.Controllers
 
         public async Task<IActionResult> Index()
         {
-            var db = new BancoTccContext();
+            var db = new Banco_TCCContext();
             var listaContratacao = await db.ContratacaoServicos.ToListAsync();
             return View(listaContratacao);
         }
@@ -22,7 +22,7 @@ namespace Projeto_iHelpU.Controllers
         [HttpPost]
         public async Task<IActionResult> Create(ContratacaoServico contratacaoServico)
         {
-            var db = new BancoTccContext();
+            var db = new Banco_TCCContext();
             if (ModelState.IsValid)
             {
                 db.Entry(contratacaoServico).State = Microsoft.EntityFrameworkCore.EntityState.Added;
@@ -37,14 +37,14 @@ namespace Projeto_iHelpU.Controllers
         }
         public async Task<IActionResult> Edit(int id)
         {
-            var db = new BancoTccContext();
+            var db = new Banco_TCCContext();
             var usuario = await db.TipoServicos.FindAsync(id);
             return View(usuario);
         }
         [HttpPost]
         public async Task<IActionResult> Edit(ContratacaoServico contratacaoServico)
         {
-            var db = new BancoTccContext();
+            var db = new Banco_TCCContext();
             if (ModelState.IsValid)
             {
                 db.Entry(contratacaoServico).State = EntityState.Modified;
@@ -59,14 +59,14 @@ namespace Projeto_iHelpU.Controllers
         }
         public async Task<IActionResult> Details(int id)
         {
-            var db = new BancoTccContext();
+            var db = new Banco_TCCContext();
             var contratacaoServico = await db.ContratacaoServicos.FirstOrDefaultAsync(x => x.Id == id);
             return View(contratacaoServico);
         }
 
         public async Task<IActionResult> Delete(int id)
         {
-            var db = new BancoTccContext();
+            var db = new Banco_TCCContext();
             var contratacaoServico = await db.ContratacaoServicos.FirstOrDefaultAsync(x => x.Id == id);
             return View(contratacaoServico);
         }
@@ -74,7 +74,7 @@ namespace Projeto_iHelpU.Controllers
         [HttpPost]
         public async Task<IActionResult> Delete(ContratacaoServico contratacaoServico)
         {
-            var db = new BancoTccContext();
+            var db = new Banco_TCCContext();
             db.Entry(contratacaoServico).State = EntityState.Deleted;
             await db.SaveChangesAsync();
             return RedirectToAction("Index");

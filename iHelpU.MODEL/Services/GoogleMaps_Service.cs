@@ -17,7 +17,7 @@ namespace iHelpU.MODEL.Services
 {
     public class GoogleMaps_Service : IGoogleMaps_Service
     {
-        private readonly BancoTccContext _context;
+        private readonly Banco_TCCContext _context;
         private readonly HttpClient _httpClient;
         private readonly string _googleApiKey;
 

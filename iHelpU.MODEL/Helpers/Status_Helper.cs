@@ -9,7 +9,7 @@ namespace iHelpU.MODEL.Helpers
 {
     public static class Status_Helper
     {
-        public static List<Status> ObterTodosStatus(BancoTccContext context)
+        public static List<Status> ObterTodosStatus(Banco_TCCContext context)
         {
             return context.Statuses.ToList();
         }

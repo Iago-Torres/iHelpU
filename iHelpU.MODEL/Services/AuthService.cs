@@ -10,9 +10,9 @@ namespace iHelpU.MODEL.Services
     public class AuthService : IAuthService
     {
         private readonly IHttpContextAccessor _httpContextAccessor;
-        private readonly BancoTccContext _db;
+        private readonly Banco_TCCContext _db;
 
-        public AuthService(IHttpContextAccessor httpContextAccessor, BancoTccContext db)
+        public AuthService(IHttpContextAccessor httpContextAccessor, Banco_TCCContext db)
         {
             _httpContextAccessor = httpContextAccessor;
             _db = db;

@@ -29,6 +29,12 @@ public partial class AnuncioServico
 
     public string Estado { get; set; }
 
+    public string Cep { get; set; }
+
+    public string Pais { get; set; }
+
+    public string NomeLocal { get; set; }
+
     public virtual ICollection<ContratacaoServico> ContratacaoServicos { get; set; } = new List<ContratacaoServico>();
 
     public virtual Status IdStatusNavigation { get; set; }

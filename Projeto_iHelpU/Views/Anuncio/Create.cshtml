@@ -86,6 +86,12 @@
                     </div>
 
                     <div class="form-group mb-3">
+                        <label asp-for="Pais" class="control-label">País</label>
+                        <input asp-for="Pais" class="form-control" readonly />
+                        <span asp-validation-for="Pais" class="text-danger"></span>
+                    </div>
+
+                    <div class="form-group mb-3">
                         <label asp-for="Estado" class="control-label">Estado</label>
                         <input asp-for="Estado" class="form-control" readonly />
                         <span asp-validation-for="Estado" class="text-danger"></span>
@@ -98,10 +104,23 @@
                     </div>
 
                     <div class="form-group mb-3">
+                        <label asp-for="Cep" class="control-label">CEP</label>
+                        <input asp-for="Cep" class="form-control" readonly />
+                        <span asp-validation-for="Cep" class="text-danger"></span>
+                    </div>
+
+                    <div class="form-group mb-3">
                         <label asp-for="Rua" class="control-label">Rua</label>
                         <input asp-for="Rua" class="form-control" readonly />
                         <span asp-validation-for="Rua" class="text-danger"></span>
                     </div>
+
+                    <div class="form-group mb-3">
+                        <label asp-for="NomeLocal" class="control-label">Nome do Lugar</label>
+                        <input asp-for="NomeLocal" class="form-control" readonly />
+                        <span asp-validation-for="NomeLocal" class="text-danger"></span>
+                    </div>
+
 
                    
 
@@ -195,11 +214,12 @@
                                     
                                     const addressComponents = results[0].address_components;
 
+                                    document.querySelector("input#Pais.form-control").value = getAddressPart(addressComponents, "country");
                                     document.querySelector("input#Estado.form-control").value = getAddressPart(addressComponents, "administrative_area_level_1");
                                     document.querySelector("input#Cidade.form-control").value = getAddressPart(addressComponents, "administrative_area_level_2");
-                                    document.querySelector("input#Rua.form-control").value = getAddressPart(addressComponents, "route", "postal code");
-                                    
-                                    console.log("CEP: ", "postal_code")
+                                    document.querySelector("input#Cep.form-control").value = getAddressPart(addressComponents, "postal_code");
+                                    document.querySelector("input#Rua.form-control").value = getAddressPart(addressComponents, "route");
+                                    document.querySelector("input#NomeLocal.form-control").value = getAddressPart(addressComponents, "premise");
                                     
                                     document.querySelector("[asp-for='Cidade']").value = getAddressPart(addressComponents, "administrative_area_level_2");
                                     document.querySelector("[asp-for='Rua']").value = getAddressPart(addressComponents, "route");
@@ -208,14 +228,6 @@
                                 }
                             });
                         }
-
-                        //route = Rua do Local
-                        //premise = ? Apareceu como P&G não sei porque
-                        //postal_code = CEP
-
-                        console.log("Campo Cidade encontrado:", document.getElementById("Cidade"));
-                        console.log("Valor retornado para Cidade:", getAddressPart(addressComponents, "administrative_area_level_1"));
-
                         // Função para obter partes específicas do endereço
                         function getAddressPart(components, type) {
                             const part = components.find(component => component.types.includes(type));
@@ -227,6 +239,18 @@
                                 return "";
                             }
                         }
+
+                        function getAddressPart(components, type) {
+                            const part = components.find(component => component.types.includes(type));
+                            if (part) {
+                                console.log(`Encontrado ${type}:`, part.long_name);
+                                return part.long_name;
+                            } else {
+                                console.warn(`Não encontrado: ${type}`);
+                                return "Não disponível"; // Fallback
+                            }
+                        }
+
                         // Tratamento de erro ao obter localização
                         function handleLocationError(browserHasGeolocation, infoWindow, pos) {
                             infoWindow.setPosition(pos);

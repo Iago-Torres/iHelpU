@@ -7,9 +7,9 @@ namespace iHelpU.MODEL.Repositories
 {
     public class RepositoryUsuario : RepositoryBase<Usuario>
     {
-        private readonly BancoTccContext _context;
+        private readonly Banco_TCCContext _context;
 
-        public RepositoryUsuario(BancoTccContext context, bool saveChanges = true) : base(context, saveChanges)
+        public RepositoryUsuario(Banco_TCCContext context, bool saveChanges = true) : base(context, saveChanges)
         {
             _context = context;
         }

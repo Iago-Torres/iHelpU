@@ -13,10 +13,10 @@ namespace iHelpU.MODEL.Services
 {
     public class ContratacaoServicoService : IContratacaoServico_Service
     {
-        private readonly BancoTccContext _context;
+        private readonly Banco_TCCContext _context;
         public RepositoryContratacaoServico oRepositoryContratacaoServico { get; set; }
 
-        public ContratacaoServicoService(BancoTccContext context)
+        public ContratacaoServicoService(Banco_TCCContext context)
         {
             oRepositoryContratacaoServico = new RepositoryContratacaoServico(context);
             _context = context;

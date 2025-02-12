@@ -79,6 +79,12 @@
                     </div>
 
                     <div class="form-group mb-3">
+                        <label asp-for="Pais" class="control-label">País</label>
+                        <input asp-for="Pais" class="form-control" readonly />
+                        <span asp-validation-for="Pais" class="text-danger"></span>
+                    </div>
+
+                    <div class="form-group mb-3">
                         <label asp-for="Estado" class="control-label">Estado</label>
                         <input asp-for="Estado" class="form-control" readonly />
                         <span asp-validation-for="Estado" class="text-danger"></span>
@@ -91,9 +97,21 @@
                     </div>
 
                     <div class="form-group mb-3">
+                        <label asp-for="Cep" class="control-label">CEP</label>
+                        <input asp-for="Cep" class="form-control" readonly />
+                        <span asp-validation-for="Cep" class="text-danger"></span>
+                    </div>
+
+                    <div class="form-group mb-3">
                         <label asp-for="Rua" class="control-label">Rua</label>
                         <input asp-for="Rua" class="form-control" readonly />
                         <span asp-validation-for="Rua" class="text-danger"></span>
+                    </div>
+
+                    <div class="form-group mb-3">
+                        <label asp-for="NomeLocal" class="control-label">Nome do Lugar</label>
+                        <input asp-for="NomeLocal" class="form-control" readonly />
+                        <span asp-validation-for="NomeLocal" class="text-danger"></span>
                     </div>
 
                     <div class="form-group mt-3">
@@ -192,11 +210,13 @@
                                     console.log("Resultados do Geocoder:", results[0].address_components);
 
                                     const addressComponents = results[0].address_components;
-
-                                    document.getElementById("Estado").value = getAddressPart(addressComponents, "administrative_area_level_1");
-                                    document.getElementById("Cidade").value = getAddressPart(addressComponents, "administrative_area_level_2");
-                                    document.getElementById("Rua").value = getAddressPart(addressComponents, "route");
-                                    document.getElementById("CEP").value = getAddressPart(addressComponents, "postal_code");
+                                    document.querySelector("input#Pais.form-control").value = getAddressPart(addressComponents, "country");
+                                    document.querySelector("input#Estado.form-control").value = getAddressPart(addressComponents, "administrative_area_level_1");
+                                    document.querySelector("input#Cidade.form-control").value = getAddressPart(addressComponents, "administrative_area_level_2");
+                                    document.querySelector("input#Cep.form-control").value = getAddressPart(addressComponents, "postal_code");
+                                    document.querySelector("input#Rua.form-control").value = getAddressPart(addressComponents, "route");
+                                    document.querySelector("input#NomeLocal.form-control").value = getAddressPart(addressComponents, "premise");
+                                    
                                 } else {
                                     console.error("Geocoding falhou: " + status);
                                 }

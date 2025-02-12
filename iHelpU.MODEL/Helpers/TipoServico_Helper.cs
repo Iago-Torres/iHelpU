@@ -9,7 +9,7 @@ namespace iHelpU.MODEL.Helpers
 {
     public static class TipoServicoHelper
     {
-        public static List<TipoServico> ObterTiposServico(BancoTccContext context)
+        public static List<TipoServico> ObterTiposServico(Banco_TCCContext context)
         {
             // Obtém a lista de tipos de serviço diretamente do contexto
             return context.TipoServicos.ToList();
